@@ -1,0 +1,410 @@
+kind,id,variation,type,name,name_zh
+circle,1000,,,Southwest Corner,西南角落
+circle,1001,,,West Stormhill Graveyard,西北监牢旁
+circle,1002,,,Northwest Corner,西北角落
+circle,1003,,,South Lake,湖区矿洞旁
+circle,1004,,,Northwest Lake,湖区监牢旁
+circle,1005,,,South of Castle,主城南
+circle,1006,,,Northwest of Castle,主城西北
+circle,1007,,,Northeast of Lake,主城东
+circle,1008,,,East of Saintsbridge,北桥头
+circle,1009,,,Southwest Mistwood,东南角落
+circle,1010,,,Northwest Mistwood Pond,正东Boss旁
+circle,1011,,,Northeast Corner,东北角落
+circle,1021,,,Southeast Rotted Woods,腐败森林南圈
+circle,1022,,,Northwest Rotted Woods,腐败森林北圈
+circle,1023,,,Southeast Mountaintop,雪山圈
+circle,1024,,,North of Crater,火山圈
+circle,1025,,,Noklateo Entrance,隐城圈
+circle,11000,,,Southwest,大空洞西南圈
+circle,11001,,,Northwest,大空洞西北圈
+circle,11002,,,Southeast,大空洞东南圈
+circle,12000,,,Upper Circle,大空洞上城圈
+circle,12001,,,Lower Circle,大空洞下城圈
+location,10,,,Castle,
+location,11,,,South Lake,
+location,12,,,Groveside,
+location,13,,,Gatefront,
+location,14,,,Stormhill North of Gate,
+location,15,,,Alexander Spot,
+location,16,,,Northwest Stormhill,
+location,17,,,Northeast Stormhill,
+location,18,,,South Mistwood,
+location,19,,,Waypoint Ruins,
+location,20,,,Minor Erdtree,
+location,21,,,West Mistwood,
+location,22,,,Northwest Mistwood,
+location,23,,,Artist's Shack,
+location,24,,,Northeast Mistwood,
+location,25,,,Summonwater Approach,
+location,26,,,Summonwater,
+location,27,,,Far Southwest,
+location,28,,,Lake,
+location,29,,,Stormhill South of Gate,
+location,30,,,Above Stormhill Tunnel Entrance,
+location,31,,,West of Warmaster's Shack,
+location,32,,,Southeast of Lake,
+location,33,,,East of Cavalry Bridge,
+location,34,,,Minor Erdtree,
+location,35,,,Below Summonwater Hawk,
+location,36,,,Third Church,
+location,37,,,Northeast of Saintsbridge,
+location,38,,,Northwest of Lake,
+location,39,,,Murkwater Terminus,
+location,40,,,Stormhill,
+location,41,,,Highroad,
+location,42,,,East of Lake,
+location,43,,,Mistwood,
+location,44,,,Northeast Tunnel Entrance,
+location,45,,,Castle Basement,
+location,46,,,Castle Rooftop,
+location,47,,,Far Southwest of Lake,
+location,48,,,Lake,
+location,49,,,North of Stormhill Tunnel Entrance,
+location,50,,,North of Murkwater Terminus,
+location,51,,,Stormhill Spectral Hawk,
+location,52,,,Northwest Stormhill Cliffside,
+location,53,,,Mistwood Spectral Hawk,
+location,54,,,North Mistwood,
+location,55,,,East of Murkwater Terminus,
+location,56,,,Northwest of Summonwater,
+location,57,,,Southwest,
+location,58,,,Southeast,
+location,59,,,Center West,
+location,60,,,Center East,
+location,61,,,Far Northwest,
+location,62,,,Northwest,
+location,63,,,Northeast,
+location,64,,,Far Northeast,
+location,68,,,North Basement,
+location,69,,,South Great Church,
+location,70,,,Northeast Great Church,
+location,71,,,West Ruin,
+location,72,,,Southeast Ruin,
+location,73,,,Southeast Tower 1F,下塔1层
+location,74,,,Southeast Tower 2F,下塔2层
+location,75,,,Southeast Tower 3F,下塔3层
+location,76,,,Northwest Tower 1F,上塔1层
+location,77,,,Northwest Tower 2F,上塔2层
+location,78,,,Northwest Tower 3F,上塔3层
+location,79,,,South Castle,下城
+location,80,,,South Underlevel,下城下水道
+location,81,,,North Castle,上城
+location,82,,,North Underlevel,上城下水道
+location,83,,,,
+location,84,,,,
+location,85,,,,
+location,86,,,,
+location,87,,,,
+location,88,,,,
+location,89,,,,
+location,90,,,,
+location,91,,,,
+location,92,,,,
+location,93,,,,
+location,94,,,,
+location,95,,,,
+location,96,,,,
+location,97,,,,
+location,98,,,,
+location,99,,,,
+location,100,,,,
+location,101,,,,
+location,102,,,,
+location,103,,,,
+location,104,,,,
+location,105,,,,
+location,106,,,,
+location,107,,,,
+location,108,,,,
+location,109,,,Southwest Corner,
+location,110,,,Northwest Corner,
+location,111,,,South of Castle,
+location,112,,,Ruins North of Castle,
+location,113,,,Southeast Lakeshore,
+location,114,,,Castle Front,
+location,115,,,East of Saintsbridge,
+location,116,,,Northeast Corner,
+location,117,,,,
+location_type,0,,,Castle,主城
+location_type,1,,,Major Base,主要据点
+location_type,2,,,Minor Base,次要据点
+location_type,3,,,Evergaol,监牢
+location_type,4,,,Arena Boss,竞技场 Boss
+location_type,5,,,Field Boss,野外 Boss
+location_type,6,,,Rotted Woods,腐败森林
+location_type,7,,,Rot Blessing,腐败庇佑
+location_type,8,,,Frenzy Tower,癫火塔
+location_type,9,,,Scale-Bearing Merchant,持鳞商人
+location_type,10,,,Major Base,主要据点
+location_type,11,,,Major Base,主要据点
+location_type,12,,,Major Base,主要据点
+location_type,13,,,Major Base,主要据点
+location_type,14,,,Tower Boss,塔楼 Boss
+location_type,15,,,South Castle,下城
+location_type,16,,,South Underlevel,下城下水道
+location_type,17,,,North Castle,上城
+location_type,18,,,North Underlevel,上城下水道
+location_type,19,,,Minor Base,次要据点
+location_type,20,,,Great Merchant,大商人
+night_boss,4770,,,Tibia Mariner,唤声船
+night_boss,4780,,,Gaping Dragon,贪食魔龙
+night_boss,4790,,,Centipede Demon,百足恶魔
+night_boss,4800,,,The Duke's Dear Freja,大蜘蛛
+night_boss,4810,,,Smelter Demon,熔铁恶魔
+night_boss,4820,,,Nameless King,无名
+night_boss,4830,,,Dancer of the Boreal Valley,舞娘
+night_boss,4840,,,Morgott,恶兆王
+night_boss,4850,,,Draconic Tree Sentinel and Royal Cavalrymen,龙装
+night_boss,4860,,,Tree Sentinel and Royal Cavalrymen,大树守卫
+night_boss,4880,,,Godskin Duo,双神皮
+night_boss,4890,,,Wormface,蚯蚓脸
+night_boss,4910,,,Grafted Monarch,小葛
+night_boss,4917,,,Valiant Gargoyle,石像鬼
+night_boss,4918,,,Great Wyrm,大土龙
+night_boss,4919,,,Ancient Dragon,古龙
+night_boss,4920,,,Fallingstar Beast,牛牛
+night_boss,4921,,,Death Rite Bird,死鸟
+night_boss,4923,,,Dragonkin Soldier,龙人士兵
+night_boss,4924,,,Bell Bearing Hunter,铃珠
+night_boss,4925,,,Crucible Knight and Golden Hippopotamus,熔炉河马
+night_boss,4926,,,Outland Commander,偏地老将
+night_boss,4927,,,Battlefield Commander,战场老将
+night_boss,4928,,,Night's Cavalry Duo,双黑夜骑兵
+night_boss,4929,,,Demi-Human Queen and Swordmaster,亚人女王/剑圣
+night_boss,4930,,,Royal Revenant,王室幽魂
+night_boss,4990,,,Ulcerated Tree Spirit,树灵
+night_boss,5200,,,Curseblade and Divine Beast Warrior,咒剑士/神兽战士
+night_boss,5201,,,Great Red Bear,大红熊
+night_boss,5202,,,Death Knights,死骑士
+night_boss,5203,,,Demon Princes,双恶魔
+night_boss,5210,,,Mohg,蒙格
+night_boss,5211,,,Divine Beast Dancing Lion,舞狮
+night_boss,5212,,,Knight Artorias,A大
+night_boss,5213,,,Demon Prince,恶魔王子
+nightlord,0,,,Gladius,三狼
+nightlord,1,,,Adel,大嘴
+nightlord,2,,,Gnoster,虫子
+nightlord,3,,,Maris,征兆
+nightlord,4,,,Libra,山羊
+nightlord,5,,,Fulghor,人马
+nightlord,6,,,Caligo,冰龙
+nightlord,7,,,Heolstor,布德奇冥
+nightlord,8,,,Harmonia,七仙女
+nightlord,9,,,Straghess,废物王
+rot_blessing,1046300590,,,Southwest,↓
+rot_blessing,1047300590,,,West,←
+rot_blessing,1057300590,,,Northeast,→
+frenzy_tower,1044380230,,,North,↑
+frenzy_tower,1044360220,,,South,↓
+frenzy_tower,1038400230,,,West,←
+frenzy_tower,1046400230,,,South,↓
+spawn,700,,,Far Southwest,西南角落
+spawn,701,,,Stormhill South of Gate,正西方
+spawn,702,,,West of Warmaster's Shack,西北监牢旁
+spawn,703,,,Above Stormhill Tunnel Entrance,西北矿洞上
+spawn,704,,,Southeast of Lake,最南边
+spawn,705,,,East of Cavalry Bridge,南桥头
+spawn,706,,,Northeast of Saintsbridge,北桥头
+spawn,707,,,Minor Erdtree,小黄金树
+spawn,708,,,Below Summonwater Hawk,东北灵魂鹰旁
+spawn,13000,,,Southwest,大空洞西南
+spawn,13001,,,South,大空洞南
+spawn,13002,,,Northeast,大空洞东北
+spot,2010,0,mapEvent,Gatefront,
+spot,2030,0,mapEvent,Northwest Stormhill,
+spot,2040,0,mapEvent,South Lake,
+spot,2050,0,mapEvent,Alexander Spot,
+spot,2060,0,mapEvent,Northeast Stormhill,
+spot,2080,0,mapEvent,West Mistwood,
+spot,2090,0,mapEvent,Northwest Mistwood,
+spot,2100,0,mapEvent,Artist's Shack,
+spot,2110,0,mapEvent,Summonwater Approach,
+spot,2120,0,mapEvent,South Mistwood,
+spot,2130,0,mapEvent,Minor Erdtree,
+spot,2140,0,mapEvent,Northeast Mistwood,
+spot,2150,0,mapEvent,Summonwater,
+spot,3000,0,fort,Lordsworn Captain,君王君骑士
+spot,3000,1,fort,Abductor Virgin,铁处女
+spot,3030,0,fort,Guardian Golem,魔像
+spot,3030,1,fort,Crystalians,结晶人
+spot,3200,0,camp,Banished Knights,失乡
+spot,3200,1,camp,Elder Lion,老狮子
+spot,3210,0,camp,Leonine Misbegotten,狮子混种
+spot,3210,1,camp,Redmane Knights,红狮子骑士
+spot,3210,2,camp,Royal Army Knights,王城骑士
+spot,3220,0,camp,Flame Chariots,火焰战车
+spot,3220,1,camp,Frenzied Flame Troll,癫火山妖
+spot,3400,0,ruins,Erdtree Burial Watchdogs,看门犬
+spot,3400,1,ruins,Sanguine Noble,鲜血贵族
+spot,3400,2,ruins,Ancient Heroes of Zamor,萨米尔
+spot,3400,3,ruins,Albinaurics,白金之子
+spot,3410,0,ruins,Perfumer,调香师
+spot,3410,1,ruins,Depraved Perfumer,堕落调香师
+spot,3410,2,ruins,Battlemages,海摩法师
+spot,3410,3,ruins,Albinauric Archers,白金之子射手
+spot,3410,4,ruins,Runebear,卢恩熊
+spot,3420,0,ruins,Wormface,蚯蚓脸
+spot,3430,0,ruins,Beastmen of Farum Azula,兽人
+spot,3790,0,township,Township,
+spot,3800,0,greatChurch,Oracle Envoys,蜜雪冰城
+spot,3800,1,greatChurch,Guardian Golem,魔像
+spot,3810,0,greatChurch,Fire Monk,火焰修士
+spot,3810,1,greatChurch,Mausoleum Knight,灵庙骑士
+spot,4000,0,rise,Above Door,门上
+spot,4000,1,rise,Imp Statue,小恶魔
+spot,4000,2,rise,Withered Trees,假树
+spot,4000,3,rise,Pool Reflection,水池
+spot,4000,4,rise,Fake Building,架子
+spot,4000,5,rise,Windy Trees,草丛
+spot,4000,6,rise,Fog Door,雾门
+spot,4000,7,rise,Fleeing Stump,树桩
+spot,4000,8,rise,Unlit Candle,蜡烛
+spot,4000,9,rise,Missing Statue,神像
+spot,4090,0,difficultRise,"Above Door, Teleporting Trees, Missing Statue","门上, 树, 神像"
+spot,4090,1,difficultRise,"Imp Statue, Teleporting Trees, Fleeing Stump","小恶魔, 树, 树桩"
+spot,4090,4,difficultRise,"Fake Building, Pool Reflection, Second Floor","架子, 水池, 二楼"
+spot,4090,5,difficultRise,"Imp Statue, Windy Trees, Second Floor","小恶魔, 草丛, 二楼"
+spot,4090,7,difficultRise,"Fake Building, Right of Door, Unlit Candle","架子, 门右, 蜡烛"
+spot,4090,8,difficultRise,"Rear Withered Trees, Right of Door, Missing Statue","假树, 门右, 神像"
+spot,4100,0,church,Normal,教堂
+spot,4101,0,church,Rats,老鼠教堂
+spot,4101,1,church,Rats,老鼠教堂
+spot,4300,0,smallCamp,Dogs and Soldiers,
+spot,4300,1,smallCamp,Soldiers,
+spot,4301,0,smallCamp,Wandering Nobles,
+spot,4301,1,smallCamp,Nobles and Soldiers,
+spot,4302,0,smallCamp,Foot Soldiers,
+spot,4330,0,,Putrid Ancestral Followers,
+spot,4330,1,,Putrid Ancestral Followers,
+spot,4340,0,smallCamp,Dogs,
+spot,4340,1,smallCamp,Misbegotten,
+spot,4341,0,smallCamp,Demi-Humans,
+spot,4341,1,smallCamp,Rats and Demi-Humans,
+spot,4350,1,smallCamp,Guilty,
+spot,4401,0,smallCamp,Shack,
+spot,4500,0,smallCamp,Caravans,马车
+spot,4501,0,smallCamp,Caravans and Nobles,马车和权贵
+spot,4551,0,,Black Knife Assassin,黑刀
+spot,4650,2,,Omen,恶兆之子
+spot,4650,3,,Grave Warden Duelist,守墓斗士
+spot,4650,4,,Beastmen of Farum Azula,法姆兽人
+spot,4650,5,,Beastly Brigade,混种集团
+spot,4651,0,,Red Wolf,红狼
+spot,4652,0,,Draconic Tree Sentinel,龙装
+spot,4653,0,,Tree Sentinel,大树守卫
+spot,4654,0,,Royal Carian Knight,罗蕾塔
+spot,4655,0,,Leonine Misbegotten,狮子混种
+spot,4656,0,,Bell Bearing Hunter,铃珠
+spot,4657,0,,Elder Lion,老狮子
+spot,4658,0,,Flying Dragon,飞龙
+spot,4659,0,,Royal Revenant,王室幽魂
+spot,4660,2,,Crystalians,结晶人
+spot,4660,3,,Stoneskin Lords,黑白王
+spot,4660,4,,Banished Knights,失乡
+spot,4660,5,,Nox Warriors,诺克斯修士
+spot,4660,6,,Bloodhound Knight,猎犬骑士
+spot,4662,0,,Night's Cavalry,黑夜骑兵
+spot,4663,0,,Ulcerated Tree Spirit,树灵
+spot,4664,0,,Ancestor Spirit,祖灵
+spot,4665,0,,Grafted Scion,接肢贵族
+spot,4666,0,,Black Blade Kindred,黑剑
+spot,4667,0,,Erdtree Avatar,黄金树化身
+spot,4668,0,,Magma Wyrm,熔岩土龙
+spot,4669,0,,Ancient Hero of Zamor,萨米尔
+spot,4670,0,,Dragonkin Soldier,龙人士兵
+spot,4670,1,,Godskin Apostle,神皮使徒
+spot,4670,2,,Godskin Noble,神皮贵族
+spot,4670,3,,Crucible Knight with Sword,剑盾熔炉
+spot,4670,4,,Crucible Knight with Spear,树熔炉
+spot,4671,0,,Miranda Blossom,米兰达
+spot,4672,0,,Golden Hippopotamus,河马
+spot,4674,0,,Death Rite Bird,死鸟
+spot,4677,0,,Demi-Human Queen,亚人女王
+spot,4680,0,,Death Rite Bird,死鸟
+spot,4680,1,,Ancient Dragon,古龙
+spot,4680,2,,Godskin Duo,双神皮
+spot,4681,0,,Black Knife Assassin,黑刀
+spot,4682,0,,Red Wolf,红狼
+spot,4686,0,,Leonine Misbegotten,狮子混种
+spot,4687,0,,Bell Bearing Hunter,铃珠
+spot,4688,0,,Royal Revenant,王室幽魂
+spot,4691,0,,Grafted Scion,接肢贵族
+spot,4695,0,,Ancient Hero of Zamor,萨米尔
+spot,4780,2,,Gaping Dragon,贪食魔龙
+spot,4790,2,,Centipede Demon,百足恶魔
+spot,4800,2,,The Duke's Dear Freja,大蜘蛛
+spot,4810,2,,Smelter Demon,熔铁恶魔
+spot,4830,2,,Dancer of the Boreal Valley,舞娘
+spot,4840,2,,Morgott,恶兆王
+spot,4850,2,,Draconic Tree Sentinel and Royal Cavalrymen,龙装
+spot,4860,2,,Tree Sentinel and Royal Cavalrymen,大树守卫
+spot,4880,2,,Godskin Duo,双神皮
+spot,4910,2,,Grafted Monarch,小葛
+spot,4917,2,,Valiant Gargoyle,石像鬼
+spot,4918,2,,Great Wyrm,大土龙
+spot,4920,2,,Fallingstar Beast,牛牛
+spot,4921,2,,Death Rite Bird,死鸟
+spot,4923,2,,Dragonkin Soldier,龙人士兵
+spot,4924,2,,Bell Bearing Hunter,铃珠
+spot,4925,2,,Crucible Knight and Golden Hippopotamus,熔炉河马
+spot,4926,2,,Outland Commander,偏地老将
+spot,4927,2,,Battlefield Commander,战场老将
+spot,4928,2,,Night's Cavalry Duo,双黑夜骑兵
+spot,4929,2,,Demi-Human Queen and Swordmaster,亚人女王/剑圣
+spot,4930,2,,Royal Revenant,王室幽魂
+spot,4940,0,,Scale-Bearing Merchant,
+spot,4941,0,,Banished Knights,失乡城
+spot,4942,0,,Trolls,山妖城
+spot,4943,0,,Crucible Knights,熔炉城
+spot,4990,2,,Ulcerated Tree Spirit,树灵
+spot,5000,1,marsh,Kindred of Rot,腐败眷属
+spot,5001,1,marsh,Spider Scorpion,蜘蛛蝎
+spot,5002,0,marsh,Frost Crayfish,冰龙虾
+spot,5003,0,marsh,Cuckoo Knights,杜鹃骑士
+spot,5004,0,marsh,Cleanrot Knight,尊腐骑士
+spot,5005,0,marsh,Nomads,癫火米兰达
+spot,5010,0,village,Omen,恶兆之子
+spot,5010,2,village,Chief Bloodfiend,血怪
+spot,5010,3,village,Death Knight,死骑士
+spot,5010,4,village,Divine Bird Warrior,神鸟战士
+spot,5011,2,village,Grave Warden Duelists,守墓斗士
+spot,5011,3,village,Blackflame Monks,黑焰修士
+spot,5011,4,village,Omenkillers,恶兆猎人
+spot,5011,6,village,Ancestral Follower Warriors,祖灵之民
+spot,5100,0,church,Normal,
+spot,5110,0,rise,Above Door,门上
+spot,5110,1,rise,Imp Statue,小恶魔
+spot,5110,2,rise,Withered Trees,假树
+spot,5110,3,rise,Pool Reflection,水池
+spot,5110,4,rise,Fake Building,架子
+spot,5110,5,rise,Windy Trees,草丛
+spot,5110,6,rise,Fog Door,雾门
+spot,5110,7,rise,Fleeing Stump,树桩
+spot,5110,8,rise,Unlit Candle,蜡烛
+spot,5110,9,rise,Missing Statue,神像
+spot,5115,0,smallCamp,Caravans,马车
+spot,5240,0,greatChurch,Inquisitor / Elder Inquistor,拷问老者/拷问官
+spot,5242,0,greatChurch,Ghostflame Dragon / Spiritcaller Snail,灵火龙/唤灵蜗牛
+spot,5245,0,greatChurch,Giant Crabs,大螃蟹
+spot,5246,0,greatChurch,Mimic Tears,仿身泪滴山妖
+spot,5250,0,ruins,Bloodbane Giant Crows / Chief Bloodfiend,血乌鸦/血怪
+spot,5252,0,ruins,Curseblade / Spider Scorpions,咒剑士/蜘蛛蝎
+spot,5255,0,ruins,Red Wolf / Ancestor Spirit,红狼/祖灵
+spot,5257,0,ruins,Chief Purple Fiend / Crucible Knights,血怪/双熔炉
+spot,5358,0,northCastle,Golden Hippopotamus,河马
+spot,5359,0,northCastle,Godskin Duo,双神皮
+spot,5360,0,northUnderlevel,Omenkiller,恶兆猎人
+spot,5361,0,northUnderlevel,Bloodhound Knight,猎犬骑士
+spot,5367,0,southCastle,Cleanrot Knight,尊腐
+spot,5368,0,southCastle,Divine Bird Warrior,神鸟
+spot,5370,0,southUnderlevel,Banished Knight,失乡
+spot,5371,0,southUnderlevel,Curseblade,咒剑士
+spot,5372,0,southUnderlevel,Omen,恶兆之子
+spot,5399,0,,Great Merchant,
+terrain,0,,,Default,无特异地形
+terrain,1,,,Mountaintop,雪山
+terrain,2,,,Crater,火山口
+terrain,3,,,Rotted Woods,腐败森林
+terrain,4,,,Great Hollow,大空洞
+terrain,5,,,Noklateo,“隐城”诺克拉缇欧

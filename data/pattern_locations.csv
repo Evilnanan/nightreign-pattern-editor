@@ -1,0 +1,205 @@
+﻿index,csv_column,attach_id,scope,category,community_location,map_pixel_x,map_pixel_y,map_coord_source
+10,10,190,Surface,Castle,Castle,729.699997,833.34,SmallBaseAndSpotAttachPoint
+10,10,2190,Surface,Castle,Castle,729.699997,833.34,SmallBaseAndSpotAttachPoint
+11,11,104,Surface,Major Base,South Lake,611,1201,WorldMapPointParam
+11,11,2104,Surface,Major Base,South Lake,611,1201,WorldMapPointParam
+12,12,101,Surface,Major Base,Groveside,429,1003,WorldMapPointParam
+12,12,121,Surface,Major Base,Groveside,429,1003,WorldMapPointParam
+12,12,2101,Surface,Major Base,Groveside,429,1003,WorldMapPointParam
+12,12,2121,Surface,Major Base,Groveside,429,1003,WorldMapPointParam
+13,13,100,Surface,Major Base,Gatefront,492,846,WorldMapPointParam
+13,13,122,Surface,Major Base,Gatefront,492,846,WorldMapPointParam
+13,13,2100,Surface,Major Base,Gatefront,492,846,WorldMapPointParam
+13,13,2122,Surface,Major Base,Gatefront,492,846,WorldMapPointParam
+14,14,120,Surface,Major Base,Stormhill North of Gate,437,684,WorldMapPointParam
+14,14,123,Surface,Major Base,Stormhill North of Gate,437,684,WorldMapPointParam
+14,14,124,Surface,Major Base,Stormhill North of Gate,437,684,WorldMapPointParam
+14,14,2120,Surface,Major Base,Stormhill North of Gate,437,684,WorldMapPointParam
+14,14,2123,Surface,Major Base,Stormhill North of Gate,437,684,WorldMapPointParam
+14,14,2124,Surface,Major Base,Stormhill North of Gate,437,684,WorldMapPointParam
+15,15,106,Surface,Major Base,Alexander Spot,640,461,WorldMapPointParam
+15,15,2106,Surface,Major Base,Alexander Spot,640,461,WorldMapPointParam
+16,16,103,Surface,Major Base,Northwest Stormhill,354,429,WorldMapPointParam
+16,16,2103,Surface,Major Base,Northwest Stormhill,354,429,WorldMapPointParam
+17,17,107,Surface,Major Base,Northeast Stormhill,616,273,WorldMapPointParam
+17,17,2107,Surface,Major Base,Northeast Stormhill,616,273,WorldMapPointParam
+18,18,113,Surface,Major Base,South Mistwood,1147,1132,WorldMapPointParam
+18,18,2113,Surface,Major Base,South Mistwood,1147,1132,WorldMapPointParam
+19,19,108,Surface,Major Base,Waypoint Ruins,941,1054,WorldMapPointParam
+19,19,125,Surface,Major Base,Waypoint Ruins,941,1054,WorldMapPointParam
+19,19,126,Surface,Major Base,Waypoint Ruins,941,1054,WorldMapPointParam
+19,19,2108,Surface,Major Base,Waypoint Ruins,941,1054,WorldMapPointParam
+19,19,2125,Surface,Major Base,Waypoint Ruins,941,1054,WorldMapPointParam
+19,19,2126,Surface,Major Base,Waypoint Ruins,941,1054,WorldMapPointParam
+20,20,114,Surface,Major Base,Minor Erdtree,1156,964,WorldMapPointParam
+20,20,128,Surface,Major Base,Minor Erdtree,1156,964,WorldMapPointParam
+20,20,2114,Surface,Major Base,Minor Erdtree,1156,964,WorldMapPointParam
+20,20,2128,Surface,Major Base,Minor Erdtree,1156,964,WorldMapPointParam
+21,21,109,Surface,Major Base,West Mistwood,971,905,WorldMapPointParam
+21,21,2109,Surface,Major Base,West Mistwood,971,905,WorldMapPointParam
+22,22,111,Surface,Major Base,Northwest Mistwood,1022,710,WorldMapPointParam
+22,22,129,Surface,Major Base,Northwest Mistwood,1022,710,WorldMapPointParam
+22,22,2111,Surface,Major Base,Northwest Mistwood,1022,710,WorldMapPointParam
+22,22,2129,Surface,Major Base,Northwest Mistwood,1022,710,WorldMapPointParam
+23,23,110,Surface,Major Base,Artist's Shack,898,653,WorldMapPointParam
+23,23,2110,Surface,Major Base,Artist's Shack,898,653,WorldMapPointParam
+24,24,116,Surface,Major Base,Northeast Mistwood,1191,649,WorldMapPointParam
+24,24,2116,Surface,Major Base,Northeast Mistwood,1191,649,WorldMapPointParam
+25,25,112,Surface,Major Base,Summonwater Approach,969,448,WorldMapPointParam
+25,25,127,Surface,Major Base,Summonwater Approach,969,448,WorldMapPointParam
+25,25,2112,Surface,Major Base,Summonwater Approach,969,448,WorldMapPointParam
+25,25,2127,Surface,Major Base,Summonwater Approach,969,448,WorldMapPointParam
+26,26,117,Surface,Major Base,Summonwater,1096,330,WorldMapPointParam
+26,26,2117,Surface,Major Base,Summonwater,1096,330,WorldMapPointParam
+27,27,300,Surface,Minor Base,Far Southwest,310,1090,WorldMapPointParam
+27,27,350,Surface,Minor Base,Far Southwest,310,1090,WorldMapPointParam
+27,27,2300,Surface,Minor Base,Far Southwest,310,1090,WorldMapPointParam
+27,27,2350,Surface,Minor Base,Far Southwest,310,1090,WorldMapPointParam
+28,28,305,Surface,Minor Base,Lake,697,1067,WorldMapPointParam
+28,28,2305,Surface,Minor Base,Lake,697,1067,WorldMapPointParam
+29,29,301,Surface,Minor Base,Stormhill South of Gate,318,852,WorldMapPointParam
+29,29,351,Surface,Minor Base,Stormhill South of Gate,318,852,WorldMapPointParam
+29,29,2301,Surface,Minor Base,Stormhill South of Gate,318,852,WorldMapPointParam
+29,29,2351,Surface,Minor Base,Stormhill South of Gate,318,852,WorldMapPointParam
+30,30,306,Surface,Minor Base,Above Stormhill Tunnel Entrance,554,608,WorldMapPointParam
+30,30,356,Surface,Minor Base,Above Stormhill Tunnel Entrance,554,608,WorldMapPointParam
+30,30,2306,Surface,Minor Base,Above Stormhill Tunnel Entrance,554,608,WorldMapPointParam
+30,30,2356,Surface,Minor Base,Above Stormhill Tunnel Entrance,554,608,WorldMapPointParam
+31,31,302,Surface,Minor Base,West of Warmaster's Shack,336,541.540001,WorldMapPointParam
+31,31,352,Surface,Minor Base,West of Warmaster's Shack,336,541.540001,WorldMapPointParam
+31,31,2302,Surface,Minor Base,West of Warmaster's Shack,336,541.540001,WorldMapPointParam
+31,31,2352,Surface,Minor Base,West of Warmaster's Shack,336,541.540001,WorldMapPointParam
+32,32,307,Surface,Minor Base,Southeast of Lake,874,1224,WorldMapPointParam
+32,32,357,Surface,Minor Base,Southeast of Lake,874,1224,WorldMapPointParam
+32,32,2307,Surface,Minor Base,Southeast of Lake,874,1224,WorldMapPointParam
+32,32,2357,Surface,Minor Base,Southeast of Lake,874,1224,WorldMapPointParam
+33,33,308,Surface,Minor Base,East of Cavalry Bridge,844,972,WorldMapPointParam
+33,33,358,Surface,Minor Base,East of Cavalry Bridge,844,972,WorldMapPointParam
+33,33,2308,Surface,Minor Base,East of Cavalry Bridge,844,972,WorldMapPointParam
+33,33,2358,Surface,Minor Base,East of Cavalry Bridge,844,972,WorldMapPointParam
+34,34,312,Surface,Minor Base,Minor Erdtree,1238,892,WorldMapPointParam
+34,34,362,Surface,Minor Base,Minor Erdtree,1238,892,WorldMapPointParam
+34,34,2312,Surface,Minor Base,Minor Erdtree,1238,892,WorldMapPointParam
+34,34,2362,Surface,Minor Base,Minor Erdtree,1238,892,WorldMapPointParam
+35,35,314,Surface,Minor Base,Below Summonwater Hawk,1066,559,WorldMapPointParam
+35,35,364,Surface,Minor Base,Below Summonwater Hawk,1066,559,WorldMapPointParam
+35,35,2314,Surface,Minor Base,Below Summonwater Hawk,1066,559,WorldMapPointParam
+35,35,2364,Surface,Minor Base,Below Summonwater Hawk,1066,559,WorldMapPointParam
+36,36,313,Surface,Minor Base,Third Church,1196,543,WorldMapPointParam
+36,36,2313,Surface,Minor Base,Third Church,1196,543,WorldMapPointParam
+37,37,310,Surface,Minor Base,Northeast of Saintsbridge,824,340,WorldMapPointParam
+37,37,360,Surface,Minor Base,Northeast of Saintsbridge,824,340,WorldMapPointParam
+37,37,2310,Surface,Minor Base,Northeast of Saintsbridge,824,340,WorldMapPointParam
+37,37,2360,Surface,Minor Base,Northeast of Saintsbridge,824,340,WorldMapPointParam
+38,38,602,Surface,Evergaol,Northwest of Lake,532.650002,970.349998,WorldMapPointParam
+38,38,2602,Surface,Evergaol,Northwest of Lake,532.650002,970.349998,WorldMapPointParam
+39,39,603,Surface,Evergaol,Murkwater Terminus,684.369999,586.82,WorldMapPointParam
+39,39,2603,Surface,Evergaol,Murkwater Terminus,684.369999,586.82,WorldMapPointParam
+40,40,601,Surface,Evergaol,Stormhill,258.599998,486.970001,WorldMapPointParam
+40,40,2601,Surface,Evergaol,Stormhill,258.599998,486.970001,WorldMapPointParam
+41,41,604,Surface,Evergaol,Highroad,739.790001,301.910004,WorldMapPointParam
+41,41,2604,Surface,Evergaol,Highroad,739.790001,301.910004,WorldMapPointParam
+42,42,605,Surface,Evergaol,East of Lake,953.299999,1178.55,WorldMapPointParam
+42,42,2605,Surface,Evergaol,East of Lake,953.299999,1178.55,WorldMapPointParam
+43,43,607,Surface,Evergaol,Mistwood,1213.87,749.620003,WorldMapPointParam
+43,43,2607,Surface,Evergaol,Mistwood,1213.87,749.620003,WorldMapPointParam
+44,44,606,Surface,Evergaol,Northeast Tunnel Entrance,969.220001,557.849998,WorldMapPointParam
+44,44,2606,Surface,Evergaol,Northeast Tunnel Entrance,969.220001,557.849998,WorldMapPointParam
+45,45,757,Surface,Arena Boss,Castle Basement,677.57,833.310001,WorldMapPointParam
+45,45,2757,Surface,Arena Boss,Castle Basement,677.57,833.310001,WorldMapPointParam
+46,46,756,Surface,Field Boss,Castle Rooftop,677.57,833.310001,WorldMapPointParam
+46,46,2756,Surface,Field Boss,Castle Rooftop,677.57,833.310001,WorldMapPointParam
+47,47,750,Surface,Field Boss,Far Southwest of Lake,477.279999,1263.43,WorldMapPointParam
+47,47,2750,Surface,Field Boss,Far Southwest of Lake,477.279999,1263.43,WorldMapPointParam
+48,48,755,Surface,Field Boss,Lake,665.030001,1097.42,WorldMapPointParam
+48,48,2755,Surface,Field Boss,Lake,665.030001,1097.42,WorldMapPointParam
+49,49,753,Surface,Field Boss,North of Stormhill Tunnel Entrance,478.25,574.199997,WorldMapPointParam
+49,49,2753,Surface,Field Boss,North of Stormhill Tunnel Entrance,478.25,574.199997,WorldMapPointParam
+50,50,759,Surface,Field Boss,North of Murkwater Terminus,724.860001,551.25,WorldMapPointParam
+50,50,2759,Surface,Field Boss,North of Murkwater Terminus,724.860001,551.25,WorldMapPointParam
+51,51,758,Surface,Field Boss,Stormhill Spectral Hawk,515.190002,364.85,WorldMapPointParam
+51,51,2758,Surface,Field Boss,Stormhill Spectral Hawk,515.190002,364.85,WorldMapPointParam
+52,52,754,Surface,Field Boss,Northwest Stormhill Cliffside,453.860001,293.260002,WorldMapPointParam
+52,52,2754,Surface,Field Boss,Northwest Stormhill Cliffside,453.860001,293.260002,WorldMapPointParam
+53,53,762,Surface,Field Boss,Mistwood Spectral Hawk,1049.07,1198.38,WorldMapPointParam
+53,53,2762,Surface,Field Boss,Mistwood Spectral Hawk,1049.07,1198.38,WorldMapPointParam
+54,54,763,Surface,Field Boss,North Mistwood,1174.18,778.309998,WorldMapPointParam
+54,54,2763,Surface,Field Boss,North Mistwood,1174.18,778.309998,WorldMapPointParam
+55,55,760,Surface,Field Boss,East of Murkwater Terminus,846.459999,584.369999,WorldMapPointParam
+55,55,2760,Surface,Field Boss,East of Murkwater Terminus,846.459999,584.369999,WorldMapPointParam
+56,56,761,Surface,Field Boss,Northwest of Summonwater,975.160004,333.169998,WorldMapPointParam
+56,56,2761,Surface,Field Boss,Northwest of Summonwater,975.160004,333.169998,WorldMapPointParam
+57,57,315,Surface,Rotted Woods,Southwest,995.059998,1139.42,WorldMapPointParam
+57,57,2315,Surface,Rotted Woods,Southwest,995.059998,1139.42,WorldMapPointParam
+58,58,322,Surface,Rotted Woods,Southeast,1205.98,1059.54,WorldMapPointParam
+58,58,2322,Surface,Rotted Woods,Southeast,1205.98,1059.54,WorldMapPointParam
+59,59,309,Surface,Rotted Woods,Center West,930.330002,954.970001,WorldMapPointParam
+59,59,2309,Surface,Rotted Woods,Center West,930.330002,954.970001,WorldMapPointParam
+60,60,318,Surface,Rotted Woods,Center East,1111.23,979.510002,WorldMapPointParam
+60,60,2318,Surface,Rotted Woods,Center East,1111.23,979.510002,WorldMapPointParam
+61,61,317,Surface,Rotted Woods,Far Northwest,882.42,867.610001,WorldMapPointParam
+61,61,2317,Surface,Rotted Woods,Far Northwest,882.42,867.610001,WorldMapPointParam
+62,62,316,Surface,Rotted Woods,Northwest,968.970001,856.119999,WorldMapPointParam
+62,62,2316,Surface,Rotted Woods,Northwest,968.970001,856.119999,WorldMapPointParam
+63,63,320,Surface,Rotted Woods,Northeast,1177.51,921.690001,WorldMapPointParam
+63,63,2320,Surface,Rotted Woods,Northeast,1177.51,921.690001,WorldMapPointParam
+64,64,319,Surface,Rotted Woods,Far Northeast,1201.5,849.720001,WorldMapPointParam
+64,64,2319,Surface,Rotted Woods,Far Northeast,1201.5,849.720001,WorldMapPointParam
+68,68,1103,Great Hollow,Great Hollow,,508.369995,431.029999,WorldMapPointParam
+69,69,1107,Great Hollow,Great Hollow,,696.740002,1162.89,WorldMapPointParam
+70,70,1108,Great Hollow,Great Hollow,,1189.37,631.93,WorldMapPointParam
+71,71,1109,Great Hollow,Great Hollow,,394.25,887.33,WorldMapPointParam
+72,72,1110,Great Hollow,Great Hollow,,1077.72,1070.57,WorldMapPointParam
+73,73,1111,Great Hollow,Great Hollow,,1103.969,1061.476,SmallBaseAndSpotAttachPoint
+74,74,1112,Great Hollow,Great Hollow,,1104.11,1061.55,SmallBaseAndSpotAttachPoint
+75,75,1113,Great Hollow,Great Hollow,,1104.11,1061.55,SmallBaseAndSpotAttachPoint
+76,76,1114,Great Hollow,Great Hollow,,402.006001,661.273001,SmallBaseAndSpotAttachPoint
+77,77,1115,Great Hollow,Great Hollow,,402.139999,661.360001,SmallBaseAndSpotAttachPoint
+78,78,1116,Great Hollow,Great Hollow,,401.518,661.204,SmallBaseAndSpotAttachPoint
+79,79,1135,Great Hollow,Great Hollow,,896,1152,SmallBaseAndSpotAttachPoint
+80,80,1138,Great Hollow,Great Hollow,,896,1152,SmallBaseAndSpotAttachPoint
+81,81,1141,Great Hollow,Great Hollow,,490.059998,557.489998,SmallBaseAndSpotAttachPoint
+82,82,1145,Great Hollow,Great Hollow,,455.68,453.370003,SmallBaseAndSpotAttachPoint
+83,83,1150,Great Hollow,Minor Base,,556,1182,WorldMapPointParam
+84,84,1151,Great Hollow,Minor Base,,544,802,WorldMapPointParam
+85,85,1152,Great Hollow,Minor Base,,943.439999,779.690002,WorldMapPointParam
+86,86,1153,Great Hollow,Minor Base,,1180,886,WorldMapPointParam
+87,87,1155,Great Hollow,Great Hollow,,440.330002,779.699997,WorldMapPointParam
+88,88,1156,Great Hollow,Great Hollow,,552.849998,932.439999,WorldMapPointParam
+89,89,1157,Great Hollow,Great Hollow,,711.019997,532.419998,WorldMapPointParam
+90,90,1158,Great Hollow,Great Hollow,,909.91,749.25,WorldMapPointParam
+91,91,1159,Great Hollow,Great Hollow,,1074.98,947.389999,WorldMapPointParam
+92,92,1160,Great Hollow,Great Hollow,,1187.68,983.699997,WorldMapPointParam
+93,93,1161,Great Hollow,Great Hollow,,718.169998,999.790001,WorldMapPointParam
+94,94,1162,Great Hollow,Great Hollow,,681.490002,882.95,WorldMapPointParam
+95,95,1163,Great Hollow,Great Hollow,,693.610001,838.099998,WorldMapPointParam
+96,96,1164,Great Hollow,Great Hollow,,1064.72,815.029999,WorldMapPointParam
+97,97,1165,Great Hollow,Great Hollow,,375.954,827.027,WorldMapPointParam
+98,,1170,Great Hollow,Great Hollow,,479.809998,951.700001,WorldMapPointParam
+99,,1171,Great Hollow,Great Hollow,,548.330002,1126.03,WorldMapPointParam
+100,,1172,Great Hollow,Great Hollow,,662.18,842.380001,WorldMapPointParam
+101,,1173,Great Hollow,Great Hollow,,610.92,601.830002,WorldMapPointParam
+102,,1174,Great Hollow,Great Hollow,,960.519997,1110.64,WorldMapPointParam
+103,,1175,Great Hollow,Great Hollow,,1127.37,923.25,WorldMapPointParam
+104,,1176,Great Hollow,Great Hollow,,1121.29,706.389999,WorldMapPointParam
+105,98,1210,Great Hollow,Great Hollow,,636.19,684.619999,WorldMapPointParam
+106,99,1211,Great Hollow,Great Hollow,,869.67,1079.65,WorldMapPointParam
+107,100,1212,Great Hollow,Great Hollow,,857.880001,788.540001,WorldMapPointParam
+108,101,1213,Great Hollow,Great Hollow,,1084.03,885.72,WorldMapPointParam
+109,,710,Surface,Merchant,Southwest Corner,440.584999,1080.57,WorldMapPointParam
+109,,2710,Surface,Merchant,Southwest Corner,440.584999,1080.57,WorldMapPointParam
+110,,711,Surface,Merchant,Northwest Corner,433.952,428.263,WorldMapPointParam
+110,,2711,Surface,Merchant,Northwest Corner,433.952,428.263,WorldMapPointParam
+111,,712,Surface,Merchant,South of Castle,589.768002,1007.543,WorldMapPointParam
+111,,2712,Surface,Merchant,South of Castle,589.768002,1007.543,WorldMapPointParam
+112,,713,Surface,Merchant,Ruins North of Castle,631.051,663.482,WorldMapPointParam
+112,,2713,Surface,Merchant,Ruins North of Castle,631.051,663.482,WorldMapPointParam
+113,,715,Surface,Merchant,Southeast Lakeshore,830.168999,1178.795,WorldMapPointParam
+113,,2715,Surface,Merchant,Southeast Lakeshore,830.168999,1178.795,WorldMapPointParam
+114,,716,Surface,Merchant,Castle Front,795.919998,899.66,WorldMapPointParam
+114,,2716,Surface,Merchant,Castle Front,795.919998,899.66,WorldMapPointParam
+115,,717,Surface,Merchant,East of Saintsbridge,776,351.035,WorldMapPointParam
+115,,2717,Surface,Merchant,East of Saintsbridge,776,351.035,WorldMapPointParam
+116,,718,Surface,Merchant,Northeast Corner,1196.291,406.021,WorldMapPointParam
+116,,2718,Surface,Merchant,Northeast Corner,1196.291,406.021,WorldMapPointParam
+117,,2714,Surface,Merchant,,999.027,1158.618,WorldMapPointParam

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Nightreign Pattern Editor",
+  "version": "0.2.0",
+  "identifier": "dev.nightreign.patterneditor",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://127.0.0.1:1420",
+    "beforeBuildCommand": "npm run build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [{ "title": "Nightreign Pattern Editor", "width": 1580, "height": 960, "minWidth": 1120, "minHeight": 720 }],
+    "security": { "csp": null }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["nsis"],
+    "resources": { "../data/icon-mapping.json": "data/icon-mapping.json" }
+  }
+}
