@@ -11,7 +11,7 @@ import { mapInformationFields, mapInformationValues, type MapEvent, type MapInfo
 import { frenzyTowerPositionRow } from "./frenzy-towers";
 import { bindLocationPickers, type LocationPreviewField, type PickerChangeDetail } from "./location-picker";
 import { eventCapacity } from "./event-capacity";
-import { eventGroups, eventKindForRow, eventKinds, eventTemplates, eventTerrainLocations, planEventChange, planEventDayChange, planMapEventLocationChange, planFrenzyLocations, frenzyEventPositions, frenzyPositions, frenzyTerrainPositions, eventTiming, isInvasionEvent, isMapEventUnit, usesMapEventLocations, type EventGroup, type EventKind, type EventPlan, type EventTemplate, type EventUnitRow } from "./event-bundles";
+import { eventGroups, eventKindForRow, eventKinds, eventTemplates, eventTerrainLocations, planEventChange, planEventDayChange, planMapEventLocationChange, planFrenzyLocations, frenzyEventPositions, frenzyPositions, frenzyTerrainPositions, eventTiming, isMapEventUnit, usesMapEventLocations, type EventGroup, type EventKind, type EventPlan, type EventTemplate, type EventUnitRow } from "./event-bundles";
 import "./style.css";
 
 type Location = { index:number; scope:string; category:string; name:string; x:number; y:number; typeIndex:number|null; eventFlag?:number|null };
@@ -2102,7 +2102,10 @@ function eventEditor(p:Pattern) {
     }
     const positions=[...positionChoices.values()];
     const selectedFrenzy=frenzyEventPositions(effectiveEventPattern(p),group);
-    const location=group.kind==="frenzy" ? `<div class="event-location-options"><span>${t("event.locations")}</span>${[...new Set([...frenzyTerrainPositions(p.terrainId),...selectedFrenzy])].map(position=>
+    const frenzyLocationOrder=[frenzyPositions[1],frenzyPositions[2],frenzyPositions[0],frenzyPositions[3]]; // North before South on both terrains.
+    const frenzyLocations=[...new Set([...frenzyTerrainPositions(p.terrainId),...selectedFrenzy])]
+      .sort((a,b)=>frenzyLocationOrder.indexOf(a)-frenzyLocationOrder.indexOf(b));
+    const location=group.kind==="frenzy" ? `<div class="event-location-options"><span>${t("event.locations")}</span>${frenzyLocations.map(position=>
       `<label${eventPositionLocation("frenzy",position,templates) ? ` data-hover-location="${eventPositionLocation("frenzy",position,templates)!.index}"` : ""}><input type="checkbox" data-frenzy-position="${position}" data-frenzy-event="${group.rowId}" ${selectedFrenzy.includes(position)?"checked":""} ${state.busy?"disabled":""}>${html(eventPositionName("frenzy",position,templates))}</label>`).join("")}</div>` : group.position!==null && positions.length ? `<label class="editor-field"><span>${t("event.location")}</span>
       <select data-event-position="${group.rowId}" data-location-preview="location">${presetOptions(positions.map(position=>({value:String(position),label:eventPositionName(group.kind,position,templates),previewValue:eventPositionLocation(group.kind,position,templates)?.index})),String(group.position))}</select></label>` : "";
     const boss=group.kind==="extraBoss" && p.play ? (()=>{
@@ -2120,15 +2123,14 @@ function eventEditor(p:Pattern) {
       <div class="event-row-count">${html(t("event.rows",{count:group.flags.length,units:group.units.length}))}</div>
       <label class="editor-field"><span>${t("event.type")}</span><select data-event-preset="${group.rowId}">${presetOptions(cardOptions,current)}</select></label>${schedule}
       ${usesMapEventLocations(group.kind) ? `<button type="button" class="button secondary compact" data-set-map-event-locations>${t("event.setLocations")}</button>` : ""}
-      ${eventTiming(group.kind)==="start" ? `<p class="muted">${t(group.kind==="rise" ? "event.riseHelp" : group.kind==="frenzy" ? "event.frenzyHelp" : "event.presentAtStartHelp")}</p>` : ""}${location}${rise}${boss}${issues}
+      ${group.kind==="rise" || group.kind==="frenzy" ? `<p class="muted">${t(group.kind==="rise" ? "event.riseHelp" : "event.frenzyHelp")}</p>` : ""}${location}${rise}${boss}${issues}
       <details class="event-details" ${state.expandedEventCards.has(group.rowId)?"open":""}><summary>${t("event.advanced")}</summary>${flagRows}${unitRows || `<p class="muted">${t("event.noUnits")}</p>`}</details></div>`;
   }).join("");
   const addOptions=options.filter(option=>(option.value==="rise" || !groups.some(group=>group.kind===option.value)) &&
     templates.some(template=>template.group.kind===option.value && viableEventTemplate(p,null,template)));
   const add=`<div class="editor-row-actions"><label class="editor-field event-add-field"><span>${t("event.add")}</span><select data-add-event><option value="">${t("event.choose")}</option>${addOptions.map(option=>`<option value="${html(option.value)}">${html(option.label)}</option>`).join("")}</select></label></div>`;
-  const invasionHint=groups.some(group=>isInvasionEvent(group.kind)) ? `<p class="muted">${t("event.invasionConstraint")}</p>` : "";
   const timingHint=new Set(groups.filter(group=>group.trigger).map(group=>group.day)).size>1 ? `<p class="muted">${t("event.sharedTiming")}</p>` : "";
-  return `<div class="editor-section"><h3>${t("ui.eventResults")}</h3><p class="muted">${t("help.eventEditing")}</p>${mapEventLocationEditor(p,groups,templates)}${cards || `<p class="muted">${t("ui.noEventRows")}</p>`}${invasionHint}${timingHint}${add}</div>`;
+  return `<div class="editor-section"><h3>${t("ui.events")}</h3>${mapEventLocationEditor(p,groups,templates)}${cards || `<p class="muted">${t("ui.noEventRows")}</p>`}${timingHint}${add}</div>`;
 }
 function mapEventLocationChoices(p:Pattern,templates:EventTemplate[],rowId:number|null):EventUnitRow[] {
   const effective=effectiveEventPattern(p),current=effective.placements.find(unit=>unit.rowId===rowId && isMapEventUnit(unit.unitId));
@@ -2211,12 +2213,16 @@ function spawnEditor(p:Pattern) {
   const row=p.flags.find(f=>f.modifierSet===(p.terrainId===4?160:190));
   if(!row) return `<div class="inspector-empty"><div class="empty-icon">⌖</div><h3>${t("ui.noSpawnRow")}</h3><p>${t("help.noSpawnRows")}</p>${addRowButton("spawn")}</div>`;
   const ids=[...new Set(terrainPresetPatterns(p).flatMap(x=>x.flags.filter(f=>f.modifierSet===(p.terrainId===4?160:190)).map(f=>f.modifier)))].sort((a,b)=>a-b);
-  return `<div class="editor-section"><h3>${t("ui.spawn")}</h3><p class="muted">${t("help.spawnEditing")}</p><p class="muted">${t("help.terrainPresets")}</p>${field(p,"flag",row.rowId,"modifier",row.modifier,t("ui.spawnId"),ids.map(id=>({value:id,label:`${name("spawn",id)} · ${id}`})),"spawn")}<div class="row-foot">modifierSet ${row.modifierSet} · Row #${row.rowId}</div></div>`;
+  return `<div class="editor-section"><h3>${t("ui.spawn")}</h3>${field(p,"flag",row.rowId,"modifier",row.modifier,t("ui.spawnId"),ids.map(id=>({value:id,label:`${name("spawn",id)} · ${id}`})),"spawn")}<div class="row-foot">modifierSet ${row.modifierSet} · Row #${row.rowId}</div></div>`;
+}
+function circleWarning(first:number,second:number) {
+  return Number.isSafeInteger(first) && first===second ? `<div class="event-issues" role="status">${html(t("diagnostics.sameNightCircles"))}</div>` : "";
 }
 function circleEditor(p:Pattern) {
   if(!p.play) return `<div class="inspector-empty"><h3>${t("ui.noExistingRow")}</h3><p>${t("help.noPlayRow")}</p>${addRowButton("play")}</div>`;
   const options=(key:"playArea1"|"playArea2")=>[...new Set(terrainPresetPatterns(p).flatMap(x=>x.play ? [x.play[key]] : []))].sort((a,b)=>a-b).map(id=>({value:id,label:`${name("circle",id)} · ${id}`}));
-  return `<div class="editor-section"><h3>${t("ui.nightCircles")}</h3><p class="muted">${t("help.circleRowsShared")}</p><p class="muted">${t("help.terrainPresets")}</p>${field(p,"play",p.play.rowId,"playArea1",p.play.playArea1,t("ui.night1Circle"),options("playArea1"),"circle1")}${field(p,"play",p.play.rowId,"playArea2",p.play.playArea2,t("ui.night2Circle"),options("playArea2"),"circle2")}<div class="row-foot">LotResultPlayAreaParam · Row #${p.play.rowId}</div></div>`;
+  const warning=circleWarning(numeric(p,"play",p.play.rowId,"playArea1",p.play.playArea1),numeric(p,"play",p.play.rowId,"playArea2",p.play.playArea2));
+  return `<div class="editor-section"><h3>${t("ui.nightCircles")}</h3><div data-circle-warning>${warning}</div>${field(p,"play",p.play.rowId,"playArea1",p.play.playArea1,t("ui.night1Circle"),options("playArea1"),"circle1")}${field(p,"play",p.play.rowId,"playArea2",p.play.playArea2,t("ui.night2Circle"),options("playArea2"),"circle2")}<div class="row-foot">LotResultPlayAreaParam · Row #${p.play.rowId}</div></div>`;
 }
 function bossEditor(p:Pattern) {
   if(!p.play) return `<div class="inspector-empty"><h3>${t("ui.noExistingRow")}</h3><p>${t("help.noPlayRow")}</p>${addRowButton("play")}</div>`;
@@ -2404,6 +2410,14 @@ function renderInspectorContent() {
     if(state.tab==="event" && el.dataset.editTable==="flag" && !state.busy) state.selectedFlag=Number(el.dataset.editRow);
     setPatch(p,el.dataset.editTable as Patch["table"],Number(el.dataset.editRow),el.dataset.editField!,Number(el.dataset.original),v);
   }));
+  if(state.tab==="circle") {
+    const first=inspector.querySelector<HTMLInputElement>('input[data-edit-field="playArea1"]');
+    const second=inspector.querySelector<HTMLInputElement>('input[data-edit-field="playArea2"]');
+    const warning=inspector.querySelector<HTMLElement>("[data-circle-warning]");
+    if(first && second && warning) for(const input of [first,second]) input.addEventListener("input",()=>{
+      warning.innerHTML=circleWarning(first.valueAsNumber,second.valueAsNumber);
+    });
+  }
   disposeLocationPickers=bindLocationPickers(inspector,(field,value)=>{
     const previous=state.editorMarkerPreview;
     if(field===previous?.field && value===previous.value || field===null && previous===null) return;

@@ -25,6 +25,7 @@ export interface MessageParams {
   "diagnostics.eventUsage": { "count": number; "limit": number };
   "diagnostics.invalidPatterns": { "count": number };
   "diagnostics.invalidReasons": {  };
+  "diagnostics.sameNightCircles": {  };
   "editor.unitRow": { "rowId": string | number | LocalizedMessage };
   "editor.unitScope": { "attachId": string | number | LocalizedMessage; "mapIndex": string | number | LocalizedMessage };
   "errors.aesDecrypt": {  };
@@ -159,7 +160,6 @@ export interface MessageParams {
   "event.extraBoss": {  };
   "event.frenzyHelp": {  };
   "event.insufficientLocations": { "events": string | number | LocalizedMessage; "locations": string | number | LocalizedMessage; "missing": string | number | LocalizedMessage };
-  "event.invasionConstraint": {  };
   "event.issue.boss": {  };
   "event.issue.conflict": {  };
   "event.issue.duplicate": {  };
@@ -188,7 +188,6 @@ export interface MessageParams {
   "event.mapEventLocations": {  };
   "event.mapLocationsTitle": {  };
   "event.noUnits": {  };
-  "event.presentAtStartHelp": {  };
   "event.removeLocation": {  };
   "event.repair": {  };
   "event.riseHelp": {  };
@@ -222,8 +221,6 @@ export interface MessageParams {
   "help.badgeDefault": {  };
   "help.badgeVariant": {  };
   "help.bossCombinations": {  };
-  "help.circleRowsShared": {  };
-  "help.eventEditing": {  };
   "help.filtersEmpty": {  };
   "help.iconFileSettings": {  };
   "help.inspectLocation": {  };
@@ -233,8 +230,6 @@ export interface MessageParams {
   "help.noPlayRow": {  };
   "help.noSpawnRows": {  };
   "help.settingsTransfer": {  };
-  "help.spawnEditing": {  };
-  "help.terrainPresets": {  };
   "help.unitDefaults": { "unitId": string | number | LocalizedMessage };
   "help.unitVariant": { "unitId": string | number | LocalizedMessage; "variant": string | number | LocalizedMessage };
   "map.alt": { "terrain": string | number | LocalizedMessage };
@@ -304,7 +299,6 @@ export interface MessageParams {
   "ui.done": {  };
   "ui.editIconFileSettings": {  };
   "ui.editPattern": {  };
-  "ui.eventResults": {  };
   "ui.events": {  };
   "ui.excludedCannotAppearHere": {  };
   "ui.exportJson": {  };

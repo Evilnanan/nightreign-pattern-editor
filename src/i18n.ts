@@ -12,12 +12,22 @@ const catalogs: Record<Language, Partial<Record<MessageKey, string>>> = { en: en
 const storageKey = "nightreign-map-language";
 const listeners = new Set<(language: Language) => void>();
 const formatters = new Map<string, IntlMessageFormat>();
-let language: Language = defaultLanguage;
-
-try {
-  const saved = localStorage.getItem(storageKey);
-  if (supportedLanguages.includes(saved as Language)) language = saved as Language;
-} catch { /* Browser storage is optional. */ }
+function initialLanguage(): Language {
+  try {
+    const saved = localStorage.getItem(storageKey);
+    if (supportedLanguages.includes(saved as Language)) return saved as Language;
+  } catch { /* Browser storage is optional. */ }
+  if (typeof navigator !== "undefined") {
+    const preferred = navigator.languages?.length ? navigator.languages : [navigator.language];
+    for (const locale of preferred) {
+      const base = locale.toLowerCase().split("-")[0];
+      if (base === "zh") return "zh-CN";
+      if (base === "en") return "en";
+    }
+  }
+  return defaultLanguage;
+}
+let language: Language = initialLanguage();
 
 export function getLanguage() { return language; }
 

@@ -22,7 +22,7 @@ const declaration=name=>{
 };
 const declarations=["state","patchKey","html","hiddenUnitIds","numeric","visibleSpot","locationAt",
   "formattedName","name","unitName","locationName","locationCategory","field","presetOptions",
-  "addRowButton","removeRowButton","spotEditor","eventRows","eventEditor","mapEventLocationEditor","mapEventLocationChoices","eventGroupName","eventPositionLocation","eventPositionName","riseUnitOptions","eventBossOptions","effectiveEventPattern","patternEventGroups","eventTemplatePool","terrainPresetPatterns","availableTerrainLocations","eventChangePlan","viableEventTemplate","spawnEditor","circleEditor","bossEditor","informationValues","informationChoiceName","previewSummary","normalizeMapIndices","setPatchBatch"].map(declaration).join("\n");
+  "addRowButton","removeRowButton","spotEditor","eventRows","eventEditor","mapEventLocationEditor","mapEventLocationChoices","eventGroupName","eventPositionLocation","eventPositionName","riseUnitOptions","eventBossOptions","effectiveEventPattern","patternEventGroups","eventTemplatePool","terrainPresetPatterns","availableTerrainLocations","eventChangePlan","viableEventTemplate","spawnEditor","circleWarning","circleEditor","bossEditor","informationValues","informationChoiceName","previewSummary","normalizeMapIndices","setPatchBatch"].map(declaration).join("\n");
 const catalogs={};
 for(const language of ["en","zh-CN"]) catalogs[language]=JSON.parse(await readFile(new URL(`../src/locales/${language}.json`,import.meta.url),"utf8"));
 const compiled=ts.transpileModule(`
@@ -341,6 +341,27 @@ test("spawn and both night-circle lists keep numerical order when another value 
   for(const field of ["playArea1","playArea2"]) assert.deepEqual(order(editor.circleEditor(p),field),[1000,1001,1002]);
   assert.match(editor.spawnEditor(p),/data-location-picker="spawn"/);
   assert.match(editor.circleEditor(p),/data-location-picker="circle1"/);assert.match(editor.circleEditor(p),/data-location-picker="circle2"/);
+});
+
+test("night-circle warning follows original values, unsaved edits and reversions",()=>{
+  for(const language of ["en","zh-CN"]) {
+    const editor=start(language),p=editor.state.data.patterns[0];
+    const warning=catalogs[language]["diagnostics.sameNightCircles"];
+    p.play.playArea1=1000;p.play.playArea2=1001;
+    assert.ok(!editor.circleEditor(p).includes(warning));
+    editor.setPatchBatch(p,[["play",12,"playArea2",1001,1000]]);
+    assert.ok(editor.circleEditor(p).includes(warning));
+    assert.match(editor.circleEditor(p),/class="event-issues" role="status"/);
+    editor.setPatchBatch(p,[["play",12,"playArea2",1001,1001]]);
+    assert.ok(!editor.circleEditor(p).includes(warning));
+    p.play.playArea2=1000;
+    assert.ok(editor.circleEditor(p).includes(warning));
+    editor.setPatchBatch(p,[["play",12,"playArea1",1000,1002]]);
+    assert.ok(!editor.circleEditor(p).includes(warning));
+    editor.setPatchBatch(p,[["play",12,"playArea2",1000,1002]]);
+    assert.ok(editor.circleEditor(p).includes(warning));
+    assert.equal(p.play.playArea1,1000,"Warnings read drafts without changing the original circles");
+  }
 });
 
 test("a manually entered unknown circle value stays selected at its numeric position",()=>{
