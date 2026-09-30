@@ -2557,5 +2557,5 @@ async function loadData(path:string|null,reset=true) {
 }
 renderShell();
 loadData(null);
-reloadIconResources(true);
+if(import.meta.env.DEV) reloadIconResources(true);
 

@@ -15,7 +15,6 @@
   },
   "bundle": {
     "active": true,
-    "targets": ["nsis"],
-    "resources": { "../data/icon-mapping.json": "data/icon-mapping.json" }
+    "targets": ["nsis"]
   }
 }

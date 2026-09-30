@@ -1,0 +1,126 @@
+name: Build and Release
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref_type != 'tag' }}
+
+jobs:
+  build:
+    name: Windows x64
+    runs-on: windows-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Validate release version
+        if: github.event_name == 'push' && github.ref_type == 'tag'
+        shell: pwsh
+        run: |
+          @'
+          import { readFileSync } from 'node:fs';
+          const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
+          const tauri = JSON.parse(readFileSync('src-tauri/tauri.conf.json', 'utf8'));
+          const cargo = readFileSync('src-tauri/Cargo.toml', 'utf8');
+          const packageSection = cargo.split('[package]')[1]?.split(/^\[/m)[0];
+          const cargoVersion = packageSection?.match(/^version\s*=\s*"([^"]+)"/m)?.[1];
+          const tag = process.env.GITHUB_REF_NAME;
+          if (tag !== `v${pkg.version}` || tauri.version !== pkg.version || cargoVersion !== pkg.version) {
+            throw new Error(`Version mismatch: tag=${tag}, package=${pkg.version}, tauri=${tauri.version}, cargo=${cargoVersion}`);
+          }
+          '@ | node --input-type=module
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri -> target
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Test frontend
+        run: npm test
+
+      - name: Test Rust backend
+        run: cargo test --manifest-path src-tauri/Cargo.toml --locked
+
+      - name: Build standalone executable
+        run: npm run tauri -- build --ci --no-bundle -- --locked
+
+      - name: Test embedded release configuration
+        run: cargo test --manifest-path src-tauri/Cargo.toml --release --locked icons::tests::release_loads_bundled_icon_config
+
+      - name: Prepare standalone executable
+        shell: pwsh
+        run: |
+          $appVersion = (Get-Content package.json -Raw | ConvertFrom-Json).version
+          New-Item -ItemType Directory -Path output/release -Force | Out-Null
+          Copy-Item -LiteralPath src-tauri/target/release/nightreign-pattern-editor.exe -Destination "output/release/nightreign-pattern-editor_${appVersion}_windows-x64.exe"
+
+      - name: Build Windows installer
+        run: npm run tauri -- bundle --ci --bundles nsis
+
+      - name: Prepare installer
+        shell: pwsh
+        run: Copy-Item -Path src-tauri/target/release/bundle/nsis/*-setup.exe -Destination output/release
+
+      - name: Upload executable and installer
+        uses: actions/upload-artifact@v7
+        with:
+          name: nightreign-pattern-editor-windows-x64
+          path: output/release/*.exe
+          if-no-files-found: error
+          retention-days: 14
+
+  release:
+    name: Publish GitHub Release
+    needs: build
+    if: github.event_name == 'push' && github.ref_type == 'tag'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: nightreign-pattern-editor-windows-x64
+          path: artifacts
+
+      - name: Publish executable and installer
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            gh release upload "$RELEASE_TAG" artifacts/*.exe --clobber
+          else
+            flags=()
+            if [[ "$RELEASE_TAG" == *-* ]]; then
+              flags+=(--prerelease)
+            fi
+            gh release create "$RELEASE_TAG" artifacts/*.exe \
+              --verify-tag --generate-notes \
+              --title "Nightreign Pattern Editor $RELEASE_TAG" "${flags[@]}"
+          fi

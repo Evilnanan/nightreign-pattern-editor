@@ -1,11 +1,16 @@
 use crate::error::{AppError, AppResult};
+#[cfg(any(debug_assertions, test))]
 use base64::{engine::general_purpose::STANDARD, Engine as _};
 use serde::{Deserialize, Serialize};
-use std::{collections::{HashMap, HashSet}, fs, io::Write, path::Path};
-use tauri::{AppHandle, Manager};
+use std::collections::{HashMap, HashSet};
+#[cfg(any(debug_assertions, test))]
+use std::{fs, io::Write, path::Path};
 
 const NAMES: &str = include_str!("../../data/pattern_names.csv");
+const BUNDLED_CONFIG: &str = include_str!("../../data/icon-mapping.json");
+#[cfg(debug_assertions)]
 const CONFIG_FILE: &str = "icon-mapping.json";
+#[cfg(any(debug_assertions, test))]
 #[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct IconResource {
@@ -13,6 +18,7 @@ pub struct IconResource {
     data_url: String,
 }
 
+#[cfg(any(debug_assertions, test))]
 #[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct IconResources {
@@ -34,6 +40,7 @@ fn valid_icon_name(name: &str) -> bool {
         !name.chars().any(|ch| ch == '/' || ch == '\\' || ch == ':' || ch.is_control())
 }
 
+#[cfg(any(debug_assertions, test))]
 fn read_icon_resources(directory: &Path) -> AppResult<IconResources> {
     let path = directory.canonicalize().map_err(|e| AppError::contextual("errors.iconDirectoryMissing", serde_json::json!({"path": directory.display().to_string()}), e))?;
     if !path.is_dir() { return Err(AppError::params("errors.iconDirectoryInvalid", serde_json::json!({"path": path.display().to_string()}))); }
@@ -62,6 +69,7 @@ fn read_icon_resources(directory: &Path) -> AppResult<IconResources> {
     Ok(IconResources { path: path.display().to_string(), icons })
 }
 
+#[cfg(debug_assertions)]
 #[tauri::command]
 pub fn reload_icon_resources() -> AppResult<IconResources> {
     let directory = Path::new(env!("CARGO_MANIFEST_DIR")).join("..").join("public").join("icons");
@@ -140,7 +148,7 @@ fn default_map_icon_scales() -> HashMap<String, u16> {
     #[derive(Deserialize)]
     #[serde(rename_all = "camelCase")]
     struct Defaults { map_icon_scales: HashMap<String, u16> }
-    serde_json::from_str::<Defaults>(include_str!("../../data/icon-mapping.json"))
+    serde_json::from_str::<Defaults>(BUNDLED_CONFIG)
         .expect("valid bundled map icon scales").map_icon_scales
 }
 
@@ -230,15 +238,12 @@ impl IconConfig {
     }
 }
 
-fn config_path(app: &AppHandle) -> AppResult<std::path::PathBuf> {
-    let directory = if cfg!(debug_assertions) {
-        Path::new(env!("CARGO_MANIFEST_DIR")).join("..")
-    } else {
-        app.path().resource_dir().map_err(|e| AppError::diagnostic("errors.iconOperation", e))?
-    };
-    Ok(directory.join("data").join(CONFIG_FILE))
+#[cfg(debug_assertions)]
+fn config_path() -> std::path::PathBuf {
+    Path::new(env!("CARGO_MANIFEST_DIR")).join("..").join("data").join(CONFIG_FILE)
 }
 
+#[cfg(any(debug_assertions, test))]
 fn write_json(path: &Path, config: &IconConfig) -> AppResult<()> {
     let parent = path.parent().ok_or(AppError::new("errors.outputParent"))?;
     fs::create_dir_all(parent).map_err(|e| AppError::diagnostic("errors.iconConfigDirectory", e))?;
@@ -274,36 +279,58 @@ fn write_json(path: &Path, config: &IconConfig) -> AppResult<()> {
 }
 
 #[tauri::command]
-pub fn load_icon_config(app: AppHandle) -> AppResult<IconConfig> {
-    let path = config_path(&app)?;
-    let text = fs::read_to_string(&path).map_err(|e| AppError::contextual("errors.iconConfigRead", serde_json::json!({"path": path.display().to_string()}), e))?;
+pub fn load_icon_config() -> AppResult<IconConfig> {
+    #[cfg(debug_assertions)]
+    let text = {
+        let path = config_path();
+        fs::read_to_string(&path).map_err(|e| AppError::contextual("errors.iconConfigRead", serde_json::json!({"path": path.display().to_string()}), e))?
+    };
+    #[cfg(not(debug_assertions))]
+    let text = BUNDLED_CONFIG;
     let config: IconConfig = serde_json::from_str(&text).map_err(|e| AppError::diagnostic("errors.iconConfigParse", e))?;
     config.into_current()
 }
 
+#[cfg(debug_assertions)]
 #[tauri::command]
-pub fn save_icon_config(app: AppHandle, config: IconConfig) -> AppResult<()> {
-    write_json(&config_path(&app)?, &config.into_current()?)
+pub fn save_icon_config(config: IconConfig) -> AppResult<()> {
+    write_json(&config_path(), &config.into_current()?)
 }
 
+#[cfg(debug_assertions)]
 #[tauri::command]
-pub fn import_icon_config(app: AppHandle, path: String) -> AppResult<IconConfig> {
+pub fn import_icon_config(path: String) -> AppResult<IconConfig> {
     let text = fs::read_to_string(&path).map_err(|e| AppError::diagnostic("errors.iconConfigImportRead", e))?;
     let config: IconConfig = serde_json::from_str(&text).map_err(|e| AppError::diagnostic("errors.iconConfigImportParse", e))?;
     let config = config.into_current()?;
-    write_json(&config_path(&app)?, &config)?;
+    write_json(&config_path(), &config)?;
     Ok(config)
 }
 
+#[cfg(debug_assertions)]
 #[tauri::command]
-pub fn export_icon_config(app: AppHandle, path: String) -> AppResult<()> {
-    let config = load_icon_config(app)?;
+pub fn export_icon_config(path: String) -> AppResult<()> {
+    let config = load_icon_config()?;
     write_json(Path::new(&path), &config)
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn bundled_icon_config_is_valid() {
+        let config: IconConfig = serde_json::from_str(BUNDLED_CONFIG).unwrap();
+        assert!(config.into_current().is_ok());
+    }
+
+    #[cfg(not(debug_assertions))]
+    #[test]
+    fn release_loads_bundled_icon_config() {
+        let config = load_icon_config().unwrap();
+        let expected: IconConfig = serde_json::from_str(BUNDLED_CONFIG).unwrap();
+        assert_eq!(serde_json::to_value(config).unwrap(), serde_json::to_value(expected.into_current().unwrap()).unwrap());
+    }
 
     #[test]
     fn validates_unit_keys_and_preserves_missing_files() {
