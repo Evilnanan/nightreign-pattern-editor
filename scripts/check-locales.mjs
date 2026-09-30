@@ -169,7 +169,7 @@ async function main() {
   });
   if (process.argv.includes("--write")) {
     if (previous !== contracts) await writeFile(contractPath, contracts, "utf8");
-  } else if (previous !== contracts) {
+  } else if (previous?.replace(/\r\n/g, "\n") !== contracts) {
     throw new Error("Message types are out of date. Run pnpm locales:generate.");
   }
   console.log(`Validated ${Object.keys(catalogs.en).length} messages in ${languages.length} languages.`);
