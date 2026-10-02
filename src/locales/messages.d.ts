@@ -245,6 +245,16 @@ export interface MessageParams {
   "map.selectedLocation": { "category": string | number | LocalizedMessage };
   "map.spawnTooltip": { "name": string | number | LocalizedMessage };
   "save.button": { "count": number };
+  "seeds.copied": {  };
+  "seeds.copyFailed": {  };
+  "seeds.deep": {  };
+  "seeds.failed": {  };
+  "seeds.generating": {  };
+  "seeds.heading": {  };
+  "seeds.normal": {  };
+  "seeds.reroll": {  };
+  "seeds.rerollMode": { "mode": string | number | LocalizedMessage };
+  "seeds.unavailable": {  };
   "status.assetsLoaded": { "count": number; "path": string | number | LocalizedMessage };
   "status.badgeStyleSaved": { "unitId": string | number | LocalizedMessage; "variationSuffix": string | number | LocalizedMessage };
   "status.badgeStyleSaving": {  };

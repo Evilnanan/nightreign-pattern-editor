@@ -11,6 +11,7 @@ import { mapInformationFields, mapInformationValues, type MapEvent, type MapInfo
 import { frenzyTowerPositionRow } from "./frenzy-towers";
 import { bindLocationPickers, type LocationPreviewField, type PickerChangeDetail } from "./location-picker";
 import { eventCapacity } from "./event-capacity";
+import { bindPreviewSeeds, previewSeedHtml } from "./preview-seeds";
 import { eventGroups, eventKindForRow, eventKinds, eventTemplates, eventTerrainLocations, planEventChange, planEventDayChange, planMapEventLocationChange, planFrenzyLocations, frenzyEventPositions, frenzyPositions, frenzyTerrainPositions, eventTiming, isMapEventUnit, usesMapEventLocations, type EventGroup, type EventKind, type EventPlan, type EventTemplate, type EventUnitRow } from "./event-bundles";
 import "./style.css";
 
@@ -824,7 +825,7 @@ function changeLanguage(language:Language) {
 }
 subscribeLanguage(()=>{
   preserveScroll(()=>{renderShell();renderAll();renderStatus();renderIconStudio();});
-  document.querySelector<HTMLSelectElement>("#language-select")!.focus();
+  document.querySelector<HTMLButtonElement>("#language-select")!.focus();
 });
 function renderShell() {
   document.documentElement.lang=getLanguage();
@@ -833,7 +834,7 @@ function renderShell() {
   app.innerHTML = `
     <header class="topbar">
       <div class="brand"><div class="brand-mark">✦</div><div><div class="brand-overline">NIGHTREIGN / PATTERN TOOLS</div><h1>${t("ui.appName")}</h1></div></div>
-      <div class="top-actions"><span id="source-label" class="source-label"></span><select id="language-select" class="language-select" aria-label="${t("ui.language")}"><option value="en" ${getLanguage()==="en"?"selected":""}>English</option><option value="zh-CN" ${getLanguage()==="zh-CN"?"selected":""}>中文</option></select>${import.meta.env.DEV?`<button id="icons-button" class="button secondary">${t("ui.iconSettings")}</button>`:""}<div class="open-file"><button id="open-button" class="button secondary" type="button" aria-expanded="false" aria-controls="open-file-options">${t("ui.open")} <span aria-hidden="true">▾</span></button><div id="open-file-options" class="open-file-options" hidden><button id="default-button" type="button">${t("ui.openBundledRegulation")}</button><button id="import-button" type="button">${t("ui.openImportRegulation")}</button></div></div><button id="save-button" class="button primary">${t("ui.saveRegulationBin")}</button></div>
+      <div class="top-actions"><span id="source-label" class="source-label"></span><div class="topbar-dropdown language-menu"><button id="language-select" class="button secondary" type="button" aria-label="${t("ui.language")}" aria-expanded="false" aria-controls="language-options">${getLanguage()==="en"?"English":"中文"} <span aria-hidden="true">▾</span></button><div id="language-options" class="topbar-dropdown-options" hidden><button type="button" data-language="en" aria-pressed="${getLanguage()==="en"}">English</button><button type="button" data-language="zh-CN" aria-pressed="${getLanguage()==="zh-CN"}">中文</button></div></div>${import.meta.env.DEV?`<button id="icons-button" class="button secondary">${t("ui.iconSettings")}</button>`:""}<div class="topbar-dropdown open-file"><button id="open-button" class="button secondary" type="button" aria-expanded="false" aria-controls="open-file-options">${t("ui.open")} <span aria-hidden="true">▾</span></button><div id="open-file-options" class="topbar-dropdown-options" hidden><button id="default-button" type="button">${t("ui.openBundledRegulation")}</button><button id="import-button" type="button">${t("ui.openImportRegulation")}</button></div></div><button id="save-button" class="button primary">${t("ui.saveRegulationBin")}</button></div>
     </header>
     <main class="layout">
       <aside class="left-panel"><div id="filter-panel"></div><div id="result-panel"></div></aside>
@@ -843,7 +844,24 @@ function renderShell() {
   if(import.meta.env.DEV) {
     document.querySelector("#icons-button")!.addEventListener("click",()=>{state.iconStudioOpen=true;renderIconStudio();});
   }
-  document.querySelector<HTMLSelectElement>("#language-select")!.addEventListener("change",e=>changeLanguage((e.target as HTMLSelectElement).value as Language));
+  const languageButton=document.querySelector<HTMLButtonElement>("#language-select")!;
+  const languageOptions=document.querySelector<HTMLElement>("#language-options")!;
+  const languageMenu=document.querySelector<HTMLElement>(".language-menu")!;
+  languageButton.addEventListener("click",()=>{
+    languageOptions.hidden=!languageOptions.hidden;
+    languageButton.setAttribute("aria-expanded",String(!languageOptions.hidden));
+  });
+  languageMenu.addEventListener("keydown",event=>{
+    if(event.key==="Escape" && !languageOptions.hidden) {
+      event.preventDefault();closeLanguageMenu();languageButton.focus();
+    }
+  });
+  languageMenu.addEventListener("focusout",event=>{
+    if(!(event.relatedTarget instanceof Node) || !languageMenu.contains(event.relatedTarget)) closeLanguageMenu();
+  });
+  languageOptions.querySelectorAll<HTMLButtonElement>("[data-language]").forEach(button=>button.addEventListener("click",()=>{
+    closeLanguageMenu();languageButton.focus();changeLanguage(button.dataset.language as Language);
+  }));
   const openButton=document.querySelector<HTMLButtonElement>("#open-button")!;
   const openOptions=document.querySelector<HTMLElement>("#open-file-options")!;
   const openFile=document.querySelector<HTMLElement>(".open-file")!;
@@ -919,7 +937,8 @@ for(const eventType of ["click","contextmenu"]) document.addEventListener(eventT
 }, {capture:true});
 document.addEventListener("click", event => {
   if (!(event.target as Element).closest(".open-file")) closeOpenFileMenu();
-  if (state.bubble === null || (event.target as HTMLElement).closest(".bubble, [data-location], [data-nightlord], #language-select")) return;
+  if (!(event.target as Element).closest(".language-menu")) closeLanguageMenu();
+  if (state.bubble === null || (event.target as HTMLElement).closest(".bubble, [data-location], [data-nightlord], .language-menu")) return;
   state.bubble = null;
   renderMap();
 });
@@ -928,6 +947,11 @@ function closeOpenFileMenu() {
   const options=document.querySelector<HTMLElement>("#open-file-options");
   if(options) options.hidden=true;
   document.querySelector("#open-button")?.setAttribute("aria-expanded","false");
+}
+function closeLanguageMenu() {
+  const options=document.querySelector<HTMLElement>("#language-options");
+  if(options) options.hidden=true;
+  document.querySelector("#language-select")?.setAttribute("aria-expanded","false");
 }
 function renderStatus() {
   const source = state.data?.sourcePath?.split(/[\\/]/).pop() || t("ui.bundledRegulationBin");
@@ -2410,6 +2434,7 @@ function renderInspectorContent() {
   const inspector=document.querySelector<HTMLElement>("#inspector")!;
   inspector.dataset.scrollKey=`inspector:${p?.id ?? "none"}:${state.mode}`;
   inspector.classList.toggle("map-information-mode",!p || state.mode==="filter");
+  inspector.classList.toggle("preview-mode",!!p && state.mode==="preview");
   if(!p || state.mode==="filter") {
     const content=document.createElement("template");content.innerHTML=mapInformationHtml();
     patchChildren(inspector,content.content);
@@ -2419,7 +2444,8 @@ function renderInspectorContent() {
   if(state.mode==="preview") {
     const location=state.selectedLocation===null?null:locationAt(state.selectedLocation);
     const spots=location?p.placements.filter(s=>s.locationIndex===location.index&&visibleSpot(p,s)):[];
-    inspector.innerHTML=`<div class="inspector-head"><span class="eyebrow">${t("headings.preview")}</span><div class="inspector-actions"><button id="exit-preview" class="button secondary">${t("ui.back")}</button>${patternIsModified(p.id)?`<button id="restore-pattern" class="button secondary" ${state.busy?"disabled":""}>${t("ui.restorePattern")}</button>`:""}<button id="edit-pattern" class="button primary">${t("ui.editPattern")}</button></div></div>${previewDiagnostics(p)}${previewSummary(p)}<div class="detail-section"><h3>${t("ui.mapUnits")} <span>${p.placements.filter(s=>visibleSpot(p,s)).length}</span></h3>${location?`<div class="selected-point"><small>${html(t("map.selectedLocation", { category: locationCategory(location) }))}</small><strong>${html(locationName(location))}</strong>${location.eventFlag!=null?`<p>${html(locationCategory(location))}</p>`:spots.length?spots.map(s=>{const id=numeric(p,"spot",s.rowId,"unitId",s.unitId),v=numeric(p,"spot",s.rowId,"variationId",s.variationId);return `<p>${html(unitName(id,v))} <code>${id}|${v}</code></p>`}).join(""):`<p>${t("ui.noVisibleUnits")}</p>`}</div>`:`<p class="muted">${t("help.inspectUnit")}</p>`}</div>`;
+    inspector.innerHTML=`<div class="inspector-head"><span class="eyebrow">${t("headings.preview")}</span><div class="inspector-actions"><button id="exit-preview" class="button secondary">${t("ui.back")}</button>${patternIsModified(p.id)?`<button id="restore-pattern" class="button secondary" ${state.busy?"disabled":""}>${t("ui.restorePattern")}</button>`:""}<button id="edit-pattern" class="button primary">${t("ui.editPattern")}</button></div></div>${previewDiagnostics(p)}${previewSummary(p)}<div class="detail-section"><h3>${t("ui.mapUnits")} <span>${p.placements.filter(s=>visibleSpot(p,s)).length}</span></h3>${location?`<div class="selected-point"><small>${html(t("map.selectedLocation", { category: locationCategory(location) }))}</small><strong>${html(locationName(location))}</strong>${location.eventFlag!=null?`<p>${html(locationCategory(location))}</p>`:spots.length?spots.map(s=>{const id=numeric(p,"spot",s.rowId,"unitId",s.unitId),v=numeric(p,"spot",s.rowId,"variationId",s.variationId);return `<p>${html(unitName(id,v))} <code>${id}|${v}</code></p>`}).join(""):`<p>${t("ui.noVisibleUnits")}</p>`}</div>`:`<p class="muted">${t("help.inspectUnit")}</p>`}</div>${previewSeedHtml(p.id)}`;
+    bindPreviewSeeds(inspector,p.id);
     document.querySelector("#exit-preview")!.addEventListener("click",()=>setMode("filter"));
     document.querySelector("#edit-pattern")!.addEventListener("click",()=>{setMode("edit");if(state.tab==="event") revealEventCard(state.selectedFlag);});
     document.querySelector("#restore-pattern")?.addEventListener("click",restorePattern);
