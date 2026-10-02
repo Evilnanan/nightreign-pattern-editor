@@ -251,6 +251,11 @@ export interface MessageParams {
   "seeds.failed": {  };
   "seeds.generating": {  };
   "seeds.heading": {  };
+  "seeds.help": {  };
+  "seeds.helpDescription": {  };
+  "seeds.helpOpenFailed": {  };
+  "seeds.helpOpenProject": {  };
+  "seeds.helpTitle": {  };
   "seeds.normal": {  };
   "seeds.reroll": {  };
   "seeds.rerollMode": { "mode": string | number | LocalizedMessage };

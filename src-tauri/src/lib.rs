@@ -22,7 +22,9 @@ async fn save_changes(input: Option<String>, output: String, patches: Vec<regula
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    let builder = tauri::Builder::default().plugin(tauri_plugin_dialog::init());
+    let builder = tauri::Builder::default()
+        .plugin(tauri_plugin_dialog::init())
+        .plugin(tauri_plugin_opener::init());
     #[cfg(debug_assertions)]
     let builder = builder.invoke_handler(tauri::generate_handler![load_dataset, save_changes, icons::load_icon_config, icons::save_icon_config, icons::import_icon_config, icons::export_icon_config, icons::reload_icon_resources]);
     #[cfg(not(debug_assertions))]

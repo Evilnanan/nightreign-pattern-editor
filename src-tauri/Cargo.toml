@@ -24,3 +24,4 @@ cbc = { version = "0.1", features = ["alloc"] }
 cipher = { version = "0.4", features = ["block-padding"] }
 zstd = "0.13"
 tempfile = "3"
+tauri-plugin-opener = "~2.5.3"

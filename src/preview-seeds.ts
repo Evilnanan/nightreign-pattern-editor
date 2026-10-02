@@ -1,4 +1,6 @@
 import { t } from "./i18n";
+import { isTauri } from "@tauri-apps/api/core";
+import { openUrl } from "@tauri-apps/plugin-opener";
 import { formatPatternSeed, isPatternReachable, type SeedRequest, type SeedResponse } from "./pattern-seeds";
 
 type SeedMode="normal"|"deep";
@@ -7,6 +9,7 @@ const modes:SeedMode[]=["normal","deep"];
 const cache=new Map<number,Record<SeedMode,SeedState>>();
 const pending=new Map<number,{pattern:number;mode:SeedMode}>();
 const copyFeedbackTimers=new WeakMap<HTMLElement,ReturnType<typeof setTimeout>>();
+const seedProjectUrl="https://github.com/Evilnanan/nightreign-derandomizer";
 let worker:Worker|null=null,sequence=0;
 
 function seedsFor(pattern:number) {
@@ -19,7 +22,8 @@ function seedsFor(pattern:number) {
 }
 
 export function previewSeedHtml(pattern:number) {
-  return `<div class="detail-section preview-seeds" data-pattern-seeds="${pattern}"><h3>${t("seeds.heading")}</h3>${modes.map(mode=>
+  const helpId=`seed-help-${pattern}`;
+  return `<div class="detail-section preview-seeds" data-pattern-seeds="${pattern}"><h3>${t("seeds.heading")}<button type="button" class="seed-help-button" popovertarget="${helpId}" aria-label="${t("seeds.help")}" title="${t("seeds.help")}" aria-expanded="false" aria-controls="${helpId}">?</button></h3><div id="${helpId}" class="seed-help-popover" popover="auto" role="dialog" aria-labelledby="${helpId}-title"><div class="seed-help-head"><strong id="${helpId}-title">${t("seeds.helpTitle")}</strong><button type="button" class="seed-help-close" popovertarget="${helpId}" popovertargetaction="hide" aria-label="${t("ui.close")}">×</button></div><p>${t("seeds.helpDescription")}</p><a class="seed-help-link" href="${seedProjectUrl}" target="_blank" rel="noopener noreferrer">${t("seeds.helpOpenProject")} ↗</a><div class="seed-help-error" role="status" aria-live="polite"></div></div>${modes.map(mode=>
     `<div class="preview-seed-row"><label for="pattern-seed-${mode}">${t(mode==="normal"?"seeds.normal":"seeds.deep")}</label><div class="preview-seed-controls"><div class="preview-seed-field"><input id="pattern-seed-${mode}" class="preview-seed-input" type="text" readonly autocomplete="off" spellcheck="false" data-seed-mode="${mode}"><span class="seed-copy-status" role="status" aria-live="polite"></span></div><button type="button" class="button secondary compact" data-reroll-seed="${mode}" aria-label="${t("seeds.rerollMode",{mode:t(mode==="normal"?"seeds.normal":"seeds.deep")})}">${t("seeds.reroll")}</button></div></div>`).join("")}</div>`;
 }
 
@@ -117,6 +121,28 @@ async function copySeed(input:HTMLInputElement) {
 
 export function bindPreviewSeeds(root:HTMLElement,pattern:number) {
   const panel=root.querySelector<HTMLElement>("[data-pattern-seeds]")!;
+  const help=panel.querySelector<HTMLElement>(".seed-help-popover")!;
+  const helpButton=panel.querySelector<HTMLButtonElement>(".seed-help-button")!;
+  help.addEventListener("toggle",()=>{
+    const open=help.matches(":popover-open");
+    helpButton.setAttribute("aria-expanded",String(open));
+    if(!open) return;
+    const trigger=helpButton.getBoundingClientRect(),margin=12;
+    const left=Math.max(margin,Math.min(trigger.left,window.innerWidth-help.offsetWidth-margin));
+    const below=trigger.bottom+8,above=trigger.top-help.offsetHeight-8;
+    const top=below+help.offsetHeight<=window.innerHeight-margin?below:Math.max(margin,above);
+    help.style.left=`${left}px`;help.style.top=`${top}px`;
+  });
+  help.querySelector<HTMLAnchorElement>(".seed-help-link")!.addEventListener("click",event=>{
+    if(!isTauri()) return;
+    event.preventDefault();
+    const status=help.querySelector<HTMLElement>(".seed-help-error")!;
+    status.textContent="";
+    void openUrl(seedProjectUrl).catch(error=>{
+      console.error("Failed to open seed project",error);
+      status.textContent=t("seeds.helpOpenFailed");
+    });
+  });
   for(const mode of modes) {
     const input=panel.querySelector<HTMLInputElement>(`[data-seed-mode="${mode}"]`)!;
     input.addEventListener("click",()=>{void copySeed(input);});
