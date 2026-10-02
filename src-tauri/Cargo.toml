@@ -1,6 +1,6 @@
 [package]
 name = "nightreign-pattern-editor"
-version = "0.2.0"
+version = "0.2.1"
 description = "Nightreign Pattern Editor"
 authors = ["Nightreign Pattern Editor contributors"]
 edition = "2021"

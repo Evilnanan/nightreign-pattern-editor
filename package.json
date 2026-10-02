@@ -1,13 +1,14 @@
 {
   "name": "nightreign-pattern-editor",
   "private": true,
-  "version": "0.2.0",
+  "version": "0.2.1",
   "type": "module",
   "scripts": {
     "dev": "node scripts/check-locales.mjs && vite --host 127.0.0.1 --port 1420",
     "build": "node scripts/check-locales.mjs && tsc && vite build",
     "check:locales": "node scripts/check-locales.mjs",
     "locales:generate": "node scripts/check-locales.mjs --write",
+    "version:bump": "node scripts/bump-version.mjs",
     "test": "node --test tests/*.test.mjs",
     "tauri": "tauri"
   },
