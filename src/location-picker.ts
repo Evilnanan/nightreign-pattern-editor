@@ -1,5 +1,25 @@
+import { t } from "./i18n";
+
 export type LocationPreviewField="spawn"|"circle1"|"circle2"|"location";
 export type PickerChangeDetail={pointerY:number|null};
+
+function normalizePickerSearch(value:string) {
+  return value.normalize("NFKD").replace(/\p{M}/gu,"").toLocaleLowerCase();
+}
+
+export function pickerOptionMatches(query:string,label:string,value:string) {
+  const terms=normalizePickerSearch(query).trim().split(/\s+/u).filter(Boolean);
+  const candidates=[label,value].map(normalizePickerSearch);
+  return terms.every(term=>candidates.some(candidate=>{
+    let position=0;
+    for(const character of term) {
+      const index=candidate.indexOf(character,position);
+      if(index===-1) return false;
+      position=index+character.length;
+    }
+    return true;
+  }));
+}
 
 function commitPickerOption(select:HTMLSelectElement,option:HTMLButtonElement,trigger:HTMLButtonElement,event?:MouseEvent) {
   select.value=option.dataset.positionValue!;
@@ -52,6 +72,17 @@ export function bindLocationPickers(root:HTMLElement, preview:(field:LocationPre
     const menu=picker.querySelector<HTMLElement>(".location-picker-options")!;
     const select=picker.querySelector<HTMLSelectElement>("select")!;
     const options=Array.from(menu.querySelectorAll<HTMLButtonElement>("[data-position-value]"));
+    const searchBar=document.createElement("div");searchBar.className="location-picker-search-bar";
+    const searchInput=document.createElement("input");searchInput.type="search";searchInput.className="location-picker-search";
+    searchInput.placeholder=t("ui.searchDropdown");searchInput.setAttribute("aria-label",t("ui.searchDropdown"));searchInput.autocomplete="off";
+    searchBar.append(searchInput);
+    const list=document.createElement("div");list.id=`${trigger.id}-listbox`;list.setAttribute("role","listbox");
+    const labelId=menu.getAttribute("aria-labelledby");if(labelId) list.setAttribute("aria-labelledby",labelId);
+    list.append(...options);
+    const empty=document.createElement("div");empty.className="location-picker-empty";empty.textContent=t("ui.noMatchingOptions");
+    empty.setAttribute("role","status");empty.hidden=true;
+    menu.removeAttribute("role");menu.removeAttribute("aria-labelledby");menu.replaceChildren(searchBar,list,empty);
+    trigger.setAttribute("aria-controls",list.id);searchInput.setAttribute("aria-controls",list.id);
     const field=picker.dataset.locationPicker as LocationPreviewField|"";
     const sync=()=>{
       trigger.querySelector("span")!.textContent=select.selectedOptions[0]?.text ?? "";
@@ -84,48 +115,65 @@ export function bindLocationPickers(root:HTMLElement, preview:(field:LocationPre
       option.focus({preventScroll:true});
       option.scrollIntoView({block:"nearest"});
     };
-    const open=()=>{
+    const enabledOptions=()=>options.filter(option=>!option.hidden && !option.disabled);
+    const filterOptions=()=>{
+      clearPreview();
+      for(const option of options) option.hidden=!pickerOptionMatches(searchInput.value,option.textContent ?? "",option.dataset.positionValue ?? "");
+      empty.hidden=options.some(option=>!option.hidden);
+      menu.scrollTop=0;
+      if(isOpen()) position();
+    };
+    searchInput.addEventListener("input",filterOptions,{signal});
+    const open=(query="")=>{
       if(select.disabled) return;
       closeAll.forEach(close=>close());
+      searchInput.value=query;
+      filterOptions();
       menu.hidden=false;
       trigger.setAttribute("aria-expanded","true");
       position();
-      options.find(option=>option.dataset.positionValue===select.value)?.scrollIntoView({block:"nearest"});
+      searchInput.focus({preventScroll:true});
     };
-    let search="",lastSearch=0;
-    const typeAhead=(event:KeyboardEvent)=>{
+    const startSearch=(event:KeyboardEvent)=>{
       if(select.disabled || event.ctrlKey || event.metaKey || event.altKey || event.isComposing || event.key.length!==1 || event.key===" ") return false;
-      const now=Date.now();search=now-lastSearch>700 ? event.key : search+event.key;lastSearch=now;
-      const repeat=[...search].every(char=>char===search[0]),term=(repeat ? search[0] : search).toLocaleLowerCase();
-      const index=options.indexOf(document.activeElement as HTMLButtonElement);
-      const ordered=repeat ? [...options.slice(index+1),...options.slice(0,index+1)] : options;
-      const option=ordered.find(option=>!option.disabled && (option.textContent?.trim().toLocaleLowerCase().startsWith(term) || option.dataset.positionValue?.toLocaleLowerCase().startsWith(term)));
-      event.preventDefault();if(!isOpen()) open();if(option) focusOption(option);return true;
+      event.preventDefault();
+      if(!isOpen()) open(event.key);
+      else {searchInput.value+=event.key;filterOptions();searchInput.focus({preventScroll:true});}
+      return true;
     };
     trigger.addEventListener("click",()=>{if(isOpen()) close();else open();},{signal});
     trigger.addEventListener("keydown",event=>{
       if(event.key==="Tab") {close();return;}
-      if(typeAhead(event)) return;
+      if(event.isComposing || startSearch(event)) return;
       if(!["ArrowDown","ArrowUp","Home","End"].includes(event.key)) return;
       event.preventDefault();
       if(!isOpen()) open();
-      const selected=options.find(option=>option.dataset.positionValue===select.value) ?? options[0];
-      focusOption(event.key==="Home" ? options[0] : event.key==="End" ? options.at(-1)! : selected);
+      const available=enabledOptions();
+      const selected=available.find(option=>option.dataset.positionValue===select.value) ?? available[0];
+      const next=event.key==="Home" ? available[0] : event.key==="End" ? available.at(-1) : selected;
+      if(next) focusOption(next);
     },{signal});
     menu.addEventListener("pointerleave",clearPreview,{signal});
     menu.addEventListener("focusout",event=>{
       if(!(event.relatedTarget instanceof Node) || !menu.contains(event.relatedTarget)) clearPreview();
     },{signal});
     menu.addEventListener("keydown",event=>{
+      if(event.isComposing) return;
       if(event.key==="Escape" || event.key==="Tab") {
         if(event.key==="Escape") event.preventDefault();
         close();trigger.focus({preventScroll:true});return;
       }
-      if(typeAhead(event)) return;
-      const index=options.indexOf(document.activeElement as HTMLButtonElement);
-      const next=event.key==="ArrowDown" ? Math.min(index+1,options.length-1)
-        : event.key==="ArrowUp" ? Math.max(index-1,0) : event.key==="Home" ? 0 : event.key==="End" ? options.length-1 : null;
-      if(next!==null) {event.preventDefault();focusOption(options[next]);}
+      const available=enabledOptions(),searchFocused=event.target===searchInput;
+      if(searchFocused && event.key==="Enter") {
+        event.preventDefault();available[0]?.click();return;
+      }
+      if(searchFocused && !["ArrowDown","ArrowUp"].includes(event.key)) return;
+      if(!searchFocused && startSearch(event)) return;
+      const index=available.indexOf(document.activeElement as HTMLButtonElement);
+      const next=event.key==="ArrowDown" ? Math.min(index+1,available.length-1)
+        : event.key==="ArrowUp" ? (searchFocused ? available.length-1 : Math.max(index-1,0))
+        : event.key==="Home" ? 0 : event.key==="End" ? available.length-1 : null;
+      if(next!==null) {event.preventDefault();if(available[next]) focusOption(available[next]);}
     },{signal});
     for(const option of options) {
       const show=()=>{

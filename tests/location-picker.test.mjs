@@ -7,6 +7,31 @@ const source=await readFile(new URL("../src/location-picker.ts",import.meta.url)
 const parsed=ts.createSourceFile("location-picker.ts",source,ts.ScriptTarget.ES2022,true);
 const declaration=parsed.statements.find(node=>ts.isFunctionDeclaration(node) && node.name?.text==="commitPickerOption");
 const compiled=ts.transpileModule(declaration.getText(parsed),{compilerOptions:{target:ts.ScriptTarget.ES2022}}).outputText;
+const searchDeclarations=parsed.statements.filter(node=>ts.isFunctionDeclaration(node) && ["normalizePickerSearch","pickerOptionMatches"].includes(node.name?.text));
+const searchCompiled=ts.transpileModule(searchDeclarations.map(node=>node.getText(parsed)).join("\n"),{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ESNext}}).outputText;
+const {pickerOptionMatches}=await import(`data:text/javascript;base64,${Buffer.from(searchCompiled).toString("base64")}`);
+
+test("dropdown search matches fuzzy names and IDs without case or accent sensitivity",()=>{
+  assert.equal(pickerOptionMatches("ngld","Nightlord Gladius","4820"),true);
+  assert.equal(pickerOptionMatches("ning","NÍNG","10"),true);
+  assert.equal(pickerOptionMatches("宁福","宁姆韦福","11"),true);
+  assert.equal(pickerOptionMatches("42","Gladius","4820"),true);
+  assert.equal(pickerOptionMatches("福宁","宁姆韦福","11"),false);
+});
+
+test("all space-separated keywords must match the name or ID in any word order",()=>{
+  assert.equal(pickerOptionMatches("  gld\t482\n ","Nightlord Gladius","4820"),true);
+  assert.equal(pickerOptionMatches("482 NGL","Nightlord Gladius","4820"),true);
+  assert.equal(pickerOptionMatches("宁姆　福","宁姆韦福","11"),true);
+  assert.equal(pickerOptionMatches("Gladius 999","Nightlord Gladius","4820"),false);
+});
+
+test("empty dropdown searches restore all options, including placeholder values",()=>{
+  assert.equal(pickerOptionMatches("","Choose event…",""),true);
+  assert.equal(pickerOptionMatches(" \t ","Nightlord Gladius","4820"),true);
+  assert.equal(pickerOptionMatches("ＨＯＬＬＯＷ","Great Hollow","4"),true);
+  assert.equal(pickerOptionMatches("unknown","Choose event…",""),false);
+});
 
 const selection=(onChange,click)=>{
   const option={dataset:{positionValue:"rise"}},trigger={id:"add-event"};

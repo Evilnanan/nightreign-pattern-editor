@@ -355,12 +355,16 @@ export interface MessageParams {
   "ui.noIcon": {  };
   "ui.noIconHiddenOnMap": {  };
   "ui.noMatchingIcons": {  };
+  "ui.noMatchingOptions": {  };
   "ui.noMatchingUnits": {  };
   "ui.noSpawnRow": {  };
   "ui.noSpecialEvent": {  };
   "ui.noVisibleUnits": {  };
   "ui.none": {  };
   "ui.normalNoFilter": {  };
+  "ui.open": {  };
+  "ui.openBundledRegulation": {  };
+  "ui.openImportRegulation": {  };
   "ui.pending": {  };
   "ui.removeEvent": {  };
   "ui.removeNightlordFilters": {  };
@@ -373,6 +377,7 @@ export interface MessageParams {
   "ui.rotBlessing": {  };
   "ui.saveRegulationBin": {  };
   "ui.scaleBearingMerchant": {  };
+  "ui.searchDropdown": {  };
   "ui.searchIconFilename": {  };
   "ui.searchUnitIdOrName": {  };
   "ui.selectAMapLocation": {  };

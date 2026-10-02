@@ -196,7 +196,7 @@ test("static events omit schedule controls while retaining the imported day flag
   assert.equal(editor.state.patches.size,0);
 });
 
-test("event type choices merge dates while the schedule selector reads the current date",()=>{
+test("event type choices merge dates while the schedule toggle reads the current date",()=>{
   const editor=start(),p=editor.state.data.patterns[0];
   p.flags=[{rowId:16,modifierSet:0,modifier:200,eventFlag:0},{rowId:17,modifierSet:3010,modifier:801,eventFlag:7721}];
   p.placements=[{rowId:11,unitId:2100,attachId:110,locationIndex:1,variationId:0,modifier:0,mapIndex:0,visible:true}];
@@ -210,10 +210,14 @@ test("event type choices merge dates while the schedule selector reads the curre
   assert.equal([...type.matchAll(/value="meteor"/g)].length,1);assert.doesNotMatch(type,/Day 1|Day 2|\|/);
   assert.equal([...add.matchAll(/value="mausoleum"/g)].length,1);assert.doesNotMatch(add,/Day 1|Day 2|\|/);
   assert.deepEqual(selected(markup,'data-event-preset="17"'),{value:"meteor",label:"Meteor strike"});
-  assert.deepEqual(selected(markup,'data-event-day="17"'),{value:"2",label:"Day 2"});
+  assert.doesNotMatch(markup,/<select data-event-day=/);
+  assert.match(markup,/<button[^>]*data-event-day="17" value="1" aria-pressed="false"[^>]*>Day 1<\/button>/);
+  assert.match(markup,/<button[^>]*data-event-day="17" value="2" aria-pressed="true"[^>]*>Day 2<\/button>/);
   assert.equal(eventLabel(markup,17),"Meteor strike");
   editor.setPatchBatch(p,[["flag",17,"eventFlag",7721,7701],["flag",17,"modifier",801,800]]);
-  markup=editor.eventEditor(p);assert.equal(selected(markup,'data-event-day="17"').value,"1");
+  markup=editor.eventEditor(p);
+  assert.match(markup,/<button[^>]*data-event-day="17" value="1" aria-pressed="true"[^>]*>Day 1<\/button>/);
+  assert.match(markup,/<button[^>]*data-event-day="17" value="2" aria-pressed="false"[^>]*>Day 2<\/button>/);
   assert.equal(selected(markup,'data-event-preset="17"').value,"meteor");
 });
 

@@ -32,7 +32,7 @@ test("named arguments and plural rules work for zero, one, and multiple counts",
   assert.equal(i18n.t("status.dataLoaded", { patterns: 1 }), "Loaded 1 Pattern");
   i18n.setLanguage("zh-CN");
   assert.equal(i18n.t("status.assetsLoaded", { count: 1, path: "icons" }), "已从 icons 读取 1 张图标");
-  assert.equal(i18n.t("save.button", { count: 0 }), "保存 regulation.bin");
+  assert.equal(i18n.t("save.button", { count: 0 }), "保存");
 });
 
 test("saved status messages and nested labels follow later language changes", () => {

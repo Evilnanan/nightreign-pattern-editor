@@ -833,7 +833,7 @@ function renderShell() {
   app.innerHTML = `
     <header class="topbar">
       <div class="brand"><div class="brand-mark">✦</div><div><div class="brand-overline">NIGHTREIGN / PATTERN TOOLS</div><h1>${t("ui.appName")}</h1></div></div>
-      <div class="top-actions"><span id="source-label" class="source-label"></span><select id="language-select" class="language-select" aria-label="${t("ui.language")}"><option value="en" ${getLanguage()==="en"?"selected":""}>English</option><option value="zh-CN" ${getLanguage()==="zh-CN"?"selected":""}>中文</option></select>${import.meta.env.DEV?`<button id="icons-button" class="button secondary">${t("ui.iconSettings")}</button>`:""}<button id="default-button" class="button secondary">${t("ui.bundledRegulationBin")}</button><button id="import-button" class="button secondary">${t("ui.importRegulationBin")}</button><button id="save-button" class="button primary">${t("ui.saveRegulationBin")}</button></div>
+      <div class="top-actions"><span id="source-label" class="source-label"></span><select id="language-select" class="language-select" aria-label="${t("ui.language")}"><option value="en" ${getLanguage()==="en"?"selected":""}>English</option><option value="zh-CN" ${getLanguage()==="zh-CN"?"selected":""}>中文</option></select>${import.meta.env.DEV?`<button id="icons-button" class="button secondary">${t("ui.iconSettings")}</button>`:""}<div class="open-file"><button id="open-button" class="button secondary" type="button" aria-expanded="false" aria-controls="open-file-options">${t("ui.open")} <span aria-hidden="true">▾</span></button><div id="open-file-options" class="open-file-options" hidden><button id="default-button" type="button">${t("ui.openBundledRegulation")}</button><button id="import-button" type="button">${t("ui.openImportRegulation")}</button></div></div><button id="save-button" class="button primary">${t("ui.saveRegulationBin")}</button></div>
     </header>
     <main class="layout">
       <aside class="left-panel"><div id="filter-panel"></div><div id="result-panel"></div></aside>
@@ -844,8 +844,25 @@ function renderShell() {
     document.querySelector("#icons-button")!.addEventListener("click",()=>{state.iconStudioOpen=true;renderIconStudio();});
   }
   document.querySelector<HTMLSelectElement>("#language-select")!.addEventListener("change",e=>changeLanguage((e.target as HTMLSelectElement).value as Language));
-  document.querySelector("#default-button")!.addEventListener("click", loadDefaultFile);
-  document.querySelector("#import-button")!.addEventListener("click", importFile);
+  const openButton=document.querySelector<HTMLButtonElement>("#open-button")!;
+  const openOptions=document.querySelector<HTMLElement>("#open-file-options")!;
+  const openFile=document.querySelector<HTMLElement>(".open-file")!;
+  openButton.addEventListener("click",()=>{
+    openOptions.hidden=!openOptions.hidden;
+    openButton.setAttribute("aria-expanded",String(!openOptions.hidden));
+  });
+  openFile.addEventListener("keydown",event=>{
+    if(event.key==="Escape" && !openOptions.hidden) {
+      event.preventDefault();closeOpenFileMenu();openButton.focus();
+    }
+  });
+  openFile.addEventListener("focusout",event=>{
+    // During pointer focus changes, a microtask can run before the next button
+    // receives focus. Hiding the menu in that gap cancels its pending click.
+    if(!(event.relatedTarget instanceof Node) || !openFile.contains(event.relatedTarget)) closeOpenFileMenu();
+  });
+  document.querySelector("#default-button")!.addEventListener("click",()=>{closeOpenFileMenu();openButton.focus();void loadDefaultFile();});
+  document.querySelector("#import-button")!.addEventListener("click",()=>{closeOpenFileMenu();openButton.focus();void importFile();});
   document.querySelector("#save-button")!.addEventListener("click", saveFile);
   document.querySelector("#zoom-out")!.addEventListener("click",()=>zoomView(state.zoom-.2));
   document.querySelector("#zoom-in")!.addEventListener("click",()=>zoomView(state.zoom+.2));
@@ -856,6 +873,7 @@ function renderShell() {
   });
   const viewport = document.querySelector<HTMLElement>("#map-viewport")!;
   bindMapEvents(document.querySelector<HTMLElement>("#map-board")!);
+  viewport.addEventListener("dragstart",event=>event.preventDefault());
   viewport.addEventListener("wheel", event => {
     // Leave popup scrolling to the browser, including at the list boundaries.
     if ((event.target as HTMLElement).closest(".bubble")) return;
@@ -864,19 +882,28 @@ function renderShell() {
     zoomView(state.zoom + (event.deltaY < 0 ? .15 : -.15));
   }, {passive:false});
   let drag: {x:number;y:number;panX:number;panY:number}|null = null;
+  let dragged = false;
   viewport.addEventListener("pointerdown", event => {
+    dragged = false;
     if ((event.target as HTMLElement).closest("button, .bubble, .map-controls")) return;
     drag = {x:event.clientX,y:event.clientY,panX:state.panX,panY:state.panY};
     viewport.setPointerCapture(event.pointerId);
   });
   viewport.addEventListener("pointermove", event => {
     if (!drag) return;
+    if (Math.hypot(event.clientX - drag.x, event.clientY - drag.y) > 4) dragged = true;
     state.panX = drag.panX + event.clientX - drag.x;
     state.panY = drag.panY + event.clientY - drag.y;
     applyView();
   });
   viewport.addEventListener("pointerup", () => { drag = null; });
   viewport.addEventListener("pointercancel", () => { drag = null; });
+  viewport.addEventListener("click", event => {
+    if (dragged || state.mode === "filter" || state.selectedLocation === null) return;
+    if ((event.target as Element).closest("button, .bubble, .map-controls, [data-location], [data-nightlord]")) return;
+    state.selectedLocation = null;
+    renderMap();renderInspector();
+  });
 }
 document.addEventListener("contextmenu", event => event.preventDefault(), {capture:true});
 for(const eventType of ["click","contextmenu"]) document.addEventListener(eventType, event => {
@@ -891,11 +918,17 @@ for(const eventType of ["click","contextmenu"]) document.addEventListener(eventT
   }
 }, {capture:true});
 document.addEventListener("click", event => {
+  if (!(event.target as Element).closest(".open-file")) closeOpenFileMenu();
   if (state.bubble === null || (event.target as HTMLElement).closest(".bubble, [data-location], [data-nightlord], #language-select")) return;
   state.bubble = null;
   renderMap();
 });
 window.addEventListener("resize",()=>{if(state.data) renderMap();});
+function closeOpenFileMenu() {
+  const options=document.querySelector<HTMLElement>("#open-file-options");
+  if(options) options.hidden=true;
+  document.querySelector("#open-button")?.setAttribute("aria-expanded","false");
+}
 function renderStatus() {
   const source = state.data?.sourcePath?.split(/[\\/]/).pop() || t("ui.bundledRegulationBin");
   document.querySelector("#source-label")!.textContent = `${source} · v${state.data?.version || "—"}`;
@@ -907,9 +940,13 @@ function renderStatus() {
   syncBusyControls();
 }
 function syncBusyControls() {
+  if(state.busy) closeOpenFileMenu();
   document.querySelectorAll<HTMLInputElement|HTMLSelectElement|HTMLButtonElement>(
-    "#default-button, #import-button, #edit-pattern, #restore-pattern, #cancel-edit, #exit-edit, #inspector [data-edit-field], #inspector [data-spot-preset], #inspector [data-event-preset], #inspector [data-event-day], #inspector [data-event-position], #inspector [data-frenzy-position], #inspector [data-add-event], #inspector [data-repair-event], #inspector [data-boss-preset], #inspector [data-add-row], #inspector [data-remove-unit], #inspector [data-remove-event], #inspector [data-map-event-position]"
+    "#open-button, #default-button, #import-button, #edit-pattern, #restore-pattern, #cancel-edit, #exit-edit, #inspector [data-edit-field], #inspector [data-spot-preset], #inspector [data-event-preset], #inspector [data-event-day], #inspector [data-event-position], #inspector [data-frenzy-position], #inspector [data-add-event], #inspector [data-repair-event], #inspector [data-boss-preset], #inspector [data-add-row], #inspector [data-remove-unit], #inspector [data-remove-event], #inspector [data-map-event-position]"
   ).forEach(control=>{control.disabled=state.busy;});
+  document.querySelectorAll<HTMLButtonElement>("#inspector [data-event-day]").forEach(button=>{
+    button.disabled=state.busy || button.hasAttribute("data-day-unavailable");
+  });
   document.querySelectorAll<HTMLSelectElement>("#inspector [data-add-map-event-location]").forEach(select=>{select.disabled=state.busy || select.options.length<=1;});
   document.querySelectorAll<HTMLButtonElement>("#inspector [data-remove-map-event-location]").forEach(button=>{
     button.disabled=state.busy || document.querySelectorAll("#inspector [data-map-event-position]").length<=1;
@@ -2088,7 +2125,10 @@ function eventEditor(p:Pattern) {
     const cardOptions=options.filter(option=>option.value===current || templates.some(template=>template.group.kind===option.value && viableEventTemplate(p,group.rowId,template)));
     if(current && !cardOptions.some(option=>option.value===current)) cardOptions.unshift({value:group.kind,label:t(`event.kind.${group.kind}`)});
     const schedule=["timed","night"].includes(eventTiming(group.kind)) ?
-      `<label class="editor-field"><span>${t("event.schedule")}</span><select data-event-day="${group.rowId}">${presetOptions(([1,2] as const).filter(day=>day===group.day || !planEventDayChange(effectiveEventPattern(p),group.rowId,day).error).map(day=>({value:String(day),label:t(day===1?"event.day1":"event.day2")})),String(group.day))}</select></label>` : "";
+      `<div class="editor-field"><span id="event-schedule-${group.rowId}">${t("event.schedule")}</span><div class="event-schedule-toggle" role="group" aria-labelledby="event-schedule-${group.rowId}">${([1,2] as const).map(day=>{
+        const unavailable=day!==group.day && !!planEventDayChange(effectiveEventPattern(p),group.rowId,day).error;
+        return `<button type="button" data-event-day="${group.rowId}" value="${day}" aria-pressed="${day===group.day}" ${unavailable?"data-day-unavailable":""} ${state.busy || unavailable?"disabled":""}>${t(day===1?"event.day1":"event.day2")}</button>`;
+      }).join("")}</div></div>` : "";
     const positionTemplates=usesMapEventLocations(group.kind) ? [] : templates.filter(template=>template.group.kind===group.kind &&
       (eventTiming(group.kind)==="start" || template.group.day===group.day) && viableEventTemplate(p,group.rowId,template));
     if(group.kind==="rise" && group.position!==null && !positionTemplates.some(template=>template.group.position===group.position))
@@ -2443,8 +2483,9 @@ function renderInspectorContent() {
   inspector.querySelectorAll<HTMLSelectElement>("[data-event-preset]").forEach(preset=>preset.addEventListener("change",()=>{
     if(preset.value) chooseEventKind(Number(preset.dataset.eventPreset),preset.value as EventKind);
   }));
-  inspector.querySelectorAll<HTMLSelectElement>("[data-event-day]").forEach(select=>select.addEventListener("change",()=>{
-    if(select.value==="1" || select.value==="2") changeEventDay(Number(select.dataset.eventDay),Number(select.value) as 1|2);
+  inspector.querySelectorAll<HTMLButtonElement>("[data-event-day]").forEach(button=>button.addEventListener("click",()=>{
+    if(button.disabled || button.getAttribute("aria-pressed")==="true") return;
+    if(button.value==="1" || button.value==="2") changeEventDay(Number(button.dataset.eventDay),Number(button.value) as 1|2);
   }));
   inspector.querySelectorAll<HTMLSelectElement>("[data-event-position]").forEach(select=>select.addEventListener("change",()=>{
     const rowId=Number(select.dataset.eventPosition),group=patternEventGroups(p).find(group=>group.rowId===rowId);
